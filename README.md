@@ -87,9 +87,13 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 | **Guest** | Pengunjung yang dapat melihat informasi umum seperti biodata atlet dan berita. |
 
 ---
+## Alur Integrasi dengan Web Service
+
+---
 
 ## 🎨 Web Design
 Design web menggunakan Figma.
 
 [Link Figma](https://www.figma.com/design/CtHs0FmDnOeHgFjWijFOZd/Badminsight_mobile?node-id=0-1&p=f&t=VkftxWAqHWMXN8oT-0)
+
 
