@@ -85,8 +85,6 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 
 ## 🔁 Alur Integrasi dengan Web Service
 
-Alur ini memungkinkan aplikasi mobile **Flutter** terhubung dan berinteraksi dengan aplikasi web **Django** yang telah dibuat sebelumnya. 
-
 1.  **Aplikasi Django** menyediakan **REST API** yang mengembalikan data dalam format **JSON**.
 2.  **Flutter** mengirim **request HTTP** ke endpoint API Django menggunakan package seperti `http`.
 3.  **Django** memproses request, menjalankan logika bisnis, dan mengambil data dari **database**.
@@ -97,5 +95,6 @@ Alur ini memungkinkan aplikasi mobile **Flutter** terhubung dan berinteraksi den
 
 ## 🎨 Web Design
 Design web menggunakan Figma.
+
 
 [Link Figma](https://www.figma.com/design/CtHs0FmDnOeHgFjWijFOZd/Badminsight_mobile?node-id=0-1&p=f&t=VkftxWAqHWMXN8oT-0)
