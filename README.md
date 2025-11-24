@@ -36,9 +36,9 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 ### 1. 👤 Who's on Court?
 **Dikerjakan oleh:** Friliani Gloria Palit
 
-**Deskripsi:** Modul biodata atlet badminton profesional yang menampilkan informasi lengkap seperti nama, kategori (tunggal/ganda/campuran), status, tempat dan tanggal lahir.
+**Deskripsi:** Menampilkan informasi pemain profesional: nama, kategori (tunggal/ganda/campuran), status (aktif/pensiun), tempat & tanggal lahir, dan statistik dasar.
 
-**Role Akses:** 🔓 Semua pengguna
+**Role Akses:** 🔓 Semua pengguna (Guest, Logged-in User, Admin).
 
 ---
 
@@ -56,7 +56,7 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 
 **Deskripsi:** Forum diskusi yang memungkinkan pengguna bertanya, berbagi pengalaman, atau memberikan rekomendasi mengenai pemain, pertandingan, atau strategi bermain. Pengguna dapat membuat postingan, memberikan komentar, dan menanggapi pertanyaan. 
 
-**Role Akses:** 🔒 Logged-in User (untuk posting & komentar)
+**Role Akses:** 🔒 Logged-in User untuk posting & komentar, Guest hanya membaca.
 
 ---
 
@@ -77,3 +77,4 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 **Role Akses:** 🔒 Logged-in User
 
 ---
+
