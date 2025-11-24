@@ -1,13 +1,8 @@
 # 🏸 Badminsights
 
-
-
-
 **Wawasan Mendalam tentang Dunia Bulu Tangkis** 🏆
 
 [🌐 Link PWS](https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/) | [📂 Repository](https://github.com/PBP-09/badminsight-mobile)
-
-
 
 ---
 
@@ -25,9 +20,9 @@
 
 ## 📖 Tentang Badminsights
 
-**Badminsights** adalah aplikasi mobile yang memberikan informasi lengkap mengenai dunia bulu tangkis Indonesia. Aplikasi ini merupakan pengembangan lanjutan dari proyek web pada Proyek Tengah Semester, yang kini diintegrasikan langsung dengan web service untuk menghadirkan pengalaman penggunaan yang lebih praktis, interaktif, dan personal melalui perangkat mobile. 🏸📱
+**Badminsights** adalah aplikasi mobile yang memberikan informasi lengkap mengenai dunia bulu tangkis Indonesia. Aplikasi ini merupakan pengembangan lanjutan dari proyek web pada Proyek Tengah Semester, yang kini diintegrasikan langsung dengan **web service** untuk menghadirkan pengalaman penggunaan yang lebih praktis, interaktif, dan personal melalui perangkat mobile. 🏸📱
 
-Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet profesional, berita terbaru, forum diskusi, katalog merchandise, serta fitur penyimpanan pemain favorit. Dengan integrasi API dari sistem web sebelumnya, seluruh data dapat diperbarui secara real time sehingga informasi yang tersaji tetap akurat dan relevan bagi semua pecinta badminton. 🌟
+Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet profesional, berita terbaru, forum diskusi, katalog merchandise, serta fitur penyimpanan pemain favorit. Dengan **integrasi API** dari sistem web sebelumnya, seluruh data dapat diperbarui secara **real time** sehingga informasi yang tersaji tetap akurat dan relevan bagi semua pecinta badminton. 🌟
 
 ---
 
@@ -87,7 +82,16 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 | **Guest** | Pengunjung yang dapat melihat informasi umum seperti biodata atlet dan berita. |
 
 ---
-## Alur Integrasi dengan Web Service
+
+## 🔁 Alur Integrasi dengan Web Service
+
+Alur ini memungkinkan aplikasi mobile **Flutter** terhubung dan berinteraksi dengan aplikasi web **Django** yang telah dibuat sebelumnya. 
+
+1.  **Aplikasi Django** menyediakan **REST API** yang mengembalikan data dalam format **JSON**.
+2.  **Flutter** mengirim **request HTTP** ke endpoint API Django menggunakan package seperti `http`.
+3.  **Django** memproses request, menjalankan logika bisnis, dan mengambil data dari **database**.
+4.  **Django** mengembalikan **respons JSON** ke Flutter.
+5.  **Flutter** melakukan **parsing** (deserialisasi) respons tersebut lalu menampilkan hasilnya di UI.
 
 ---
 
@@ -95,5 +99,3 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 Design web menggunakan Figma.
 
 [Link Figma](https://www.figma.com/design/CtHs0FmDnOeHgFjWijFOZd/Badminsight_mobile?node-id=0-1&p=f&t=VkftxWAqHWMXN8oT-0)
-
-
