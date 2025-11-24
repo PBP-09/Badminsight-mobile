@@ -28,3 +28,52 @@
 **Badminsights** adalah aplikasi mobile yang memberikan informasi lengkap mengenai dunia bulu tangkis Indonesia. Aplikasi ini merupakan pengembangan lanjutan dari proyek web pada Proyek Tengah Semester, yang kini diintegrasikan langsung dengan web service untuk menghadirkan pengalaman penggunaan yang lebih praktis, interaktif, dan personal melalui perangkat mobile. 🏸📱
 
 Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet profesional, berita terbaru, forum diskusi, katalog merchandise, serta fitur penyimpanan pemain favorit. Dengan integrasi API dari sistem web sebelumnya, seluruh data dapat diperbarui secara real time sehingga informasi yang tersaji tetap akurat dan relevan bagi semua pecinta badminton. 🌟
+
+---
+
+## 🎮 Daftar Modul & Fitur
+
+### 1. 👤 Who's on Court?
+**Dikerjakan oleh:** Friliani Gloria Palit
+
+**Deskripsi:** Modul biodata atlet badminton profesional yang menampilkan informasi lengkap seperti nama, kategori (tunggal/ganda/campuran), status, tempat dan tanggal lahir.
+
+**Role Akses:** 🔓 Semua pengguna
+
+---
+
+### 2. 📰 BadmiNews
+**Dikerjakan oleh:** Nuril Izza Ahmady
+
+**Deskripsi:** Menyajikan artikel dan berita terbaru seputar dunia badminton. Admin dapat menambahkan konten berita atau artikel baru agar informasi selalu up-to-date.
+
+**Role Akses:** 🔓 Semua pengguna (Admin dapat mengelola)
+
+---
+
+### 3. 💬 SmashTalk
+**Dikerjakan oleh:** Rousan Chandra Syahbunan
+
+**Deskripsi:** Forum diskusi yang memungkinkan pengguna bertanya, berbagi pengalaman, atau memberikan rekomendasi mengenai pemain, pertandingan, atau strategi bermain. Pengguna dapat membuat postingan, memberikan komentar, dan menanggapi pertanyaan. 
+
+**Role Akses:** 🔒 Logged-in User (untuk posting & komentar)
+
+---
+
+### 4. 🛒 Katalog Merch
+**Dikerjakan oleh:** Ghalen Cakra Permana
+
+**Deskripsi:** Toko daring yang menyediakan berbagai produk merchandise badminton seperti raket, shuttlecock, jersey, sepatu, dan aksesoris. Admin dapat mengelola katalog produk.
+
+**Role Akses:** 🔓 Semua pengguna (Admin dapat mengelola produk)
+
+---
+
+### 5. ⭐ Bookmark/Favorite Player
+**Dikerjakan oleh:** Naufal Agam Ardiansyah
+
+**Deskripsi:** Memungkinkan pengguna menyimpan pemain favorit mereka. Membuat pengalaman lebih personal dan interaktif dengan daftar favorit yang unik sesuai minat pengguna.
+
+**Role Akses:** 🔒 Logged-in User
+
+---
