@@ -78,3 +78,18 @@ Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet p
 
 ---
 
+## 👨‍💼 Role Pengguna
+
+| Role | Keterangan | 
+|------|-----------|
+| **Admin** | Mengelola seluruh sistem termasuk data pemain, produk merchandise, berita, dan forum. |
+| **Logged-in User** | Pengguna terdaftar yang dapat mengakses fitur bookmark dan forum diskusi |
+| **Guest** | Pengunjung yang dapat melihat informasi umum seperti biodata atlet dan berita. |
+
+---
+
+## 🎨 Web Design
+Design web menggunakan Figma.
+
+[Link Figma](https://www.figma.com/design/CtHs0FmDnOeHgFjWijFOZd/Badminsight_mobile?node-id=0-1&p=f&t=VkftxWAqHWMXN8oT-0)
+
