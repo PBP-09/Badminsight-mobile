@@ -22,3 +22,9 @@
 | Rousan Chandra Syahbunan | 2406435894 |
 
 ---
+
+## 📖 Tentang Badminsights
+
+**Badminsights** adalah aplikasi mobile yang memberikan informasi lengkap mengenai dunia bulu tangkis Indonesia. Aplikasi ini merupakan pengembangan lanjutan dari proyek web pada Proyek Tengah Semester, yang kini diintegrasikan langsung dengan web service untuk menghadirkan pengalaman penggunaan yang lebih praktis, interaktif, dan personal melalui perangkat mobile. 🏸📱
+
+Aplikasi ini dirancang untuk memudahkan pengguna dalam mengakses biodata atlet profesional, berita terbaru, forum diskusi, katalog merchandise, serta fitur penyimpanan pemain favorit. Dengan integrasi API dari sistem web sebelumnya, seluruh data dapat diperbarui secara real time sehingga informasi yang tersaji tetap akurat dan relevan bagi semua pecinta badminton. 🌟
