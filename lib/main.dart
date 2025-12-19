@@ -159,8 +159,6 @@ class LandingPage extends StatelessWidget {
             ),
           ],
         ),
-        // Ganti Home di bawah ini dengan LoginPage lu nanti
-        home: const LoginPage(),
       ),
     );
   }
