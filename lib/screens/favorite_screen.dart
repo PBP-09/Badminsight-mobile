@@ -9,7 +9,7 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9FAFB), // bg-gray-50
+      backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
         title: const Text(
           "⭐ Pemain Favorit",
@@ -22,7 +22,7 @@ class FavoriteScreen extends StatelessWidget {
       body: favorites.isEmpty
           ? const Center(
               child: Text(
-                "Belum ada pemain favorit 😢",
+                "Belum ada pemain favorit",
                 style: TextStyle(color: Colors.grey),
               ),
             )
@@ -31,6 +31,7 @@ class FavoriteScreen extends StatelessWidget {
               itemCount: favorites.length,
               itemBuilder: (context, index) {
                 final fav = favorites[index];
+
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
@@ -47,26 +48,27 @@ class FavoriteScreen extends StatelessWidget {
                   ),
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(12),
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        fav.playerImage,
-                        width: 56,
-                        height: 56,
-                        fit: BoxFit.cover,
+                    leading: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        color: Colors.grey,
                       ),
                     ),
                     title: Text(
-                      fav.playerName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      "Player ID: ${fav.fields.player}",
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        fav.category,
-                        style: const TextStyle(color: Colors.grey),
+                        "Ditambahkan pada ${fav.fields.createdAt.toLocal()}",
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                     ),
                     trailing: const Icon(
