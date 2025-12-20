@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:badminsights_mobile/smash_talk/models/post.dart';
+import 'package:badminsights_mobile/smash_talk/models/SmashTalk.dart';
 
 class ForumListPage extends StatelessWidget {
   const ForumListPage({super.key});
@@ -13,7 +13,7 @@ class ForumListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Smash Talk Forum")),
       body: FutureBuilder(
-        future: request.get('http://10.0.2.2:8000/forum/json/'), // Sesuai root urls.py lu
+        future: request.get('http://10.0.2.2:8000/forum/json/'), 
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return const Center(child: CircularProgressIndicator());
@@ -23,9 +23,9 @@ class ForumListPage extends StatelessWidget {
             } else {
               // results sesuai dengan return JsonResponse di api_post_list
               var data = snapshot.data['results'];
-              List<Post> listPost = [];
+              List<SmashTalk> listPost = [];
               for (var d in data) {
-                listPost.add(Post.fromJson(d));
+                listPost.add(SmashTalk.fromJson(d));
               }
               // Pakai ListView.builder buat nampilin Card yang rapi
               return ListView.builder(
