@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:badminsights_mobile/left_drawer.dart'; 
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
+      drawer: const LeftDrawer(), 
       appBar: AppBar(title: const Text('Register')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

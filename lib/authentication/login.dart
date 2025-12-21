@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-
+import 'package:badminsights_mobile/left_drawer.dart'; 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -18,8 +18,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-
+    
     return Scaffold(
+      drawer: const LeftDrawer(), 
       appBar: AppBar(title: const Text('Login Badminsights')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
