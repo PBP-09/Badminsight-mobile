@@ -1,6 +1,6 @@
 class Bookmark {
-  final int id;
-  final int playerId;
+  final String id;        // <-- GANTI DARI int KE String
+  final String playerId;  // <-- GANTI DARI int KE String
   final String playerName;
   final String playerImage;
   final String category;
@@ -14,12 +14,17 @@ class Bookmark {
   });
 
   factory Bookmark.fromJson(Map<String, dynamic> json) {
-    return Bookmark(
-      id: json['id'],
-      playerId: json['player']['id'],
-      playerName: json['player']['name'],
-      playerImage: json['player']['thumbnail'],
-      category: json['player']['category'],
-    );
-  }
+  // Ambil data player dengan aman
+  var playerData = json['player']; 
+
+  return Bookmark(
+    // Pakai toString() untuk jaga-jaga
+    id: json['id'].toString(),
+    // Cek kalau playerData itu null
+    playerId: playerData != null ? playerData['id'].toString() : "0", 
+    playerName: playerData != null ? playerData['name'] : "Unknown",
+    playerImage: playerData != null ? playerData['thumbnail'] : "https://via.placeholder.com/150",
+    category: playerData != null ? playerData['category'] : "-",
+  );
+}
 }
