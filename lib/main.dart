@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color(0xFFF8F7F4),
           cardColor: Colors.white,
         ),
-        home: const LandingPage(),
+        home: const MyHomePage(),
       ),
     );
   }
