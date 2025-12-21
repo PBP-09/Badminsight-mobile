@@ -11,10 +11,14 @@ class KatalogDeletePage extends StatelessWidget {
     final request = context.read<CookieRequest>();
 
     Future<void> deleteProduct() async {
-      await request.post(
-        'http://127.0.0.1:8000/katalog/$productId/delete/',
+      final response = await request.post(
+        'http://127.0.0.1:8000/katalog/api/delete/$productId/',
         {},
       );
+
+      if (response == null || response['success'] != true) {
+        throw Exception('Gagal menghapus produk');
+      }
     }
 
     return AlertDialog(
@@ -27,8 +31,18 @@ class KatalogDeletePage extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () async {
-            await deleteProduct();
-            Navigator.popUntil(context, (route) => route.isFirst);
+            try {
+              await deleteProduct();
+              if (context.mounted) {
+                Navigator.pop(context, true); // signal sukses
+              }
+            } catch (e) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Gagal menghapus produk')),
+                );
+              }
+            }
           },
           child: const Text('Hapus'),
         ),
@@ -36,3 +50,4 @@ class KatalogDeletePage extends StatelessWidget {
     );
   }
 }
+
