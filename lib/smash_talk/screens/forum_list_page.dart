@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/smash_talk/models/SmashTalk.dart'; 
 import 'package:badminsights_mobile/smash_talk/screens/post_forum.dart'; 
-import 'package:badminsights_mobile/smash_talk/screens/post_detail_page.dart'; // Nanti kita buat ini
+import 'package:badminsights_mobile/smash_talk/screens/post_detail_page.dart'; 
 import 'package:intl/intl.dart'; 
 
 class ForumListPage extends StatefulWidget {
@@ -43,19 +43,25 @@ class _ForumListPageState extends State<ForumListPage> {
         foregroundColor: Colors.black,
         elevation: 0.5,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          // Refresh halaman setelah buat post
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const PostFormPage()),
-          );
-          setState(() {}); 
-        },
-        backgroundColor: const Color(0xFF2563EB),
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text("Buat Postingan", style: TextStyle(color: Colors.white)),
-      ),
+      
+      // === PERBAIKAN: FloatingActionButton ditaruh DI DALAM Scaffold ===
+      floatingActionButton: request.loggedIn 
+          ? FloatingActionButton.extended(
+              onPressed: () async {
+                // Refresh halaman setelah buat post
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PostFormPage()),
+                );
+                setState(() {}); 
+              },
+              backgroundColor: const Color(0xFF2563EB),
+              icon: const Icon(Icons.add, color: Colors.white),
+              label: const Text("Buat Postingan", style: TextStyle(color: Colors.white)),
+            )
+          : null, // Kalau belum login, tombol hilang (null)
+      // ================================================================
+
       body: Column(
         children: [
           // === 1. SEARCH BAR ===
@@ -157,7 +163,7 @@ class _ForumListPageState extends State<ForumListPage> {
                   );
                 }
 
-                // === 5. DISINI NARONYA (GANTI LISTVIEW YANG LAMA) ===
+                // === 5. LIST VIEW DENGAN CARD ANIMASI (INKWELL) ===
                 return ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemCount: data.length,
@@ -166,12 +172,9 @@ class _ForumListPageState extends State<ForumListPage> {
                     var post = SmashTalk.fromJson(data[index]);
                     
                     // LANGSUNG PANGGIL WIDGETNYA
-                    // (Kita sudah pindahkan logika onTap/Navigasi ke dalam _buildPostCard biar ada animasinya)
                     return _buildPostCard(post); 
                   },
                 );
-                // ====================================================
-
               },
             ),
           ),
@@ -201,7 +204,7 @@ class _ForumListPageState extends State<ForumListPage> {
             ),
           ).then((_) => setState((){}));
         },
-        // Warna cipratan saat ditekan (opsional, defaultnya abu-abu transparan)
+        // Warna cipratan saat ditekan (opsional)
         splashColor: Colors.blue.withOpacity(0.1), 
         highlightColor: Colors.blue.withOpacity(0.05),
         
