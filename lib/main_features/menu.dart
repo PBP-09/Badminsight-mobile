@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
 import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
-import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
+import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
+import 'package:badminsights_mobile/authentication/login.dart';
+import 'package:badminsights_mobile/authentication/register.dart';
+import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -111,6 +114,63 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: const Color(0xFF1E3A8A),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          Consumer<CookieRequest>(
+            builder: (context, request, child) {
+              if (request.loggedIn) {
+                return Row(
+                  children: [
+                    Text(
+                      'Hi, ${request.jsonData['username'] ?? 'User'}',
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.logout, color: Colors.white),
+                      onPressed: () async {
+                        final response = await request.logout("http://127.0.0.1:8000/auth/logout/");
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(response['message'] ?? "Logged out")),
+                          );
+                        }
+                      },
+                      tooltip: 'Logout',
+                    ),
+                  ],
+                );
+              } else {
+                return Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const RegisterPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Register',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        ],
       ),
       drawer: const LeftDrawer(),
       body: SingleChildScrollView(
@@ -325,19 +385,23 @@ class ItemCard extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => const ForumListPage()),
             );
+          } else if (item.name == "BadmiNews") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NewsListScreen()),
+            );
+          } else if (item.name == "Merch") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const KatalogListPage()),
+            );
+          }else if (item.name == "Who's on Court?") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const PlayerEntryListPage()),
+            );
           }
-          else if (item.name =="Who's on Court?"){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const PlayerEntryListPage()),
-            );
-          } 
-          else if (item.name =="Merch"){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const KatalogListPage()),
-            );
-          }else {
+          else {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(content: Text("Membuka ${item.name}... (Coming Soon)")));
