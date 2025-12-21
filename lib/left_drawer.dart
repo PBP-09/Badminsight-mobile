@@ -8,6 +8,7 @@ import 'package:badminsights_mobile/authentication/login.dart';
 import 'package:badminsights_mobile/authentication/register.dart';
 import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
+import 'package:badminsights_mobile/bookmark/screens/favorite_screen.dart';
 
 
 class LeftDrawer extends StatelessWidget {
@@ -111,7 +112,10 @@ class LeftDrawer extends StatelessWidget {
                 leading: const Icon(Icons.favorite_border, color: Colors.grey),
                 title: const Text('Pemain Favorit Saya'),
                 onTap: () {
-                  // Navigasi fitur favorit (hanya muncul jika request.user.is_authenticated)
+                  Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const FavoriteScreen()),
+                  );
                 },
               ),
 
