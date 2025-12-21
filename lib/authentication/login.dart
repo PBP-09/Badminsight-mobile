@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:badminsights_mobile/left_drawer.dart'; 
+import 'package:badminsights_mobile/authentication/register.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
