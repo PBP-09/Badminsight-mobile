@@ -1,7 +1,8 @@
 import 'dart:async'; // Buat Timer animasi
 import 'package:flutter/material.dart';
-import 'package:badminsights_mobile/left_drawer.dart'; 
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart'; 
+import 'package:badminsights_mobile/left_drawer.dart';
+import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
+import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart';
 
 // UBAH JADI STATEFUL WIDGET BIAR BISA GERAK SENDIRI
 class MyHomePage extends StatefulWidget {
@@ -288,6 +289,11 @@ class ItemCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ForumListPage()),
+            );
+          } else if (item.name == "BadmiNews") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NewsListScreen()),
             );
           } else {
             ScaffoldMessenger.of(context)

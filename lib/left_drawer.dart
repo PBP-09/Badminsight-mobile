@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/main_features/menu.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:badminsights_mobile/authentication/login.dart'; // Import halaman Login
 import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart'; // Import SmashTalk
+import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart'; // Import BadmiNews
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -78,7 +75,10 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.newspaper_outlined, color: Color(0xFFB45309)),
             title: const Text('BadmiNews'),
             onTap: () {
-              // Navigasi fitur berita
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const NewsListScreen()),
+              );
             },
           ),
 
