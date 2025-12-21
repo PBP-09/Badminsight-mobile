@@ -109,12 +109,12 @@ class LeftDrawer extends StatelessWidget {
           const Divider(),
 
               ListTile(
-                leading: const Icon(Icons.favorite_border, color: Colors.grey),
-                title: const Text('Pemain Favorit Saya'),
+                leading: const Icon(Icons.star, color: Colors.orange),
+                title: const Text('Pemain Favorit'),
                 onTap: () {
-                  Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const FavoriteScreen()),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const FavoriteScreen()),
                   );
                 },
               ),
