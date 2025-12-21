@@ -357,3 +357,16 @@ class ModuleCard extends StatelessWidget {
     );
   }
 }
+
+// Halaman sementara sebelum lu buat LoginPage
+class PlaceholderPage extends StatelessWidget {
+  const PlaceholderPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("BadminSights")),
+      body: const Center(child: Text("Silakan buat LoginPage di folder authentication")),
+    );
+  }
+}
