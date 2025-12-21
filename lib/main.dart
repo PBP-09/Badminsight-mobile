@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/main_features/menu.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
-import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,40 +27,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LandingPage extends StatelessWidget {
-  const LandingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Badminsights'),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          children: const [
-            ModuleCard(
-              icon: Icons.forum,
-              title: 'SmashTalk',
-              route: ForumListPage(),
-            ),
-            ModuleCard(
-              icon: Icons.shopping_bag,
-              title: 'Merch',
-              route: KatalogListPage(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class ModuleCard extends StatelessWidget {
   final IconData icon;
