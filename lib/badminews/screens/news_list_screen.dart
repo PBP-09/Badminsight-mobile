@@ -8,6 +8,7 @@ import 'package:badminsights_mobile/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'create_edit_news_screen.dart';
+import 'package:badminsights_mobile/left_drawer.dart'; 
 
 class NewsListScreen extends StatefulWidget {
   const NewsListScreen({super.key});
@@ -50,6 +51,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const LeftDrawer(), 
       appBar: AppBar(
         title: const Text('BadmiNews'),
         backgroundColor: Theme.of(context).primaryColor,
@@ -82,7 +84,6 @@ class _NewsListScreenState extends State<NewsListScreen> {
           ),
         ],
       ),
-      drawer: const LeftDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {

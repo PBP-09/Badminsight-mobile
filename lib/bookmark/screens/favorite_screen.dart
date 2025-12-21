@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/bookmark.dart';
+import 'package:badminsights_mobile/left_drawer.dart'; 
 
 class FavoriteScreen extends StatelessWidget {
   final List<Bookmark> favorites;
@@ -9,6 +10,7 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const LeftDrawer(), 
       backgroundColor: const Color(0xFFF9FAFB), // bg-gray-50
       appBar: AppBar(
         title: const Text(
