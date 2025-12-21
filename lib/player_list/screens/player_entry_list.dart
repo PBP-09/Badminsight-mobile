@@ -19,7 +19,7 @@ class _PlayerEntryListPageState extends State<PlayerEntryListPage> {
   // Fungsi untuk mengambil data dari backend Django
   Future<List<PlayerEntry>> fetchPlayers(CookieRequest request) async {
     // Ganti URL sesuai dengan environment Anda (localhost/10.0.2.2)
-    final response = await request.get('http://127.0.0.1:8000/json/');
+    final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/json/');
 
     List<PlayerEntry> listPlayers = [];
     for (var d in response) {

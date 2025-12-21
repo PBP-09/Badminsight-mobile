@@ -19,12 +19,12 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
   Future<Map<String, dynamic>> fetchPostDetail(CookieRequest request) async {
     // Gunakan 127.0.0.1 untuk Chrome
-    final response = await request.get('http://127.0.0.1:8000/forum/json/${widget.postId}/');
+    final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/forum/json/${widget.postId}/');
     return response;
   }
 
   Future<List<dynamic>> fetchComments(CookieRequest request) async {
-    final response = await request.get('http://127.0.0.1:8000/forum/get-comments-flutter/${widget.postId}/');
+    final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/forum/get-comments-flutter/${widget.postId}/');
     return response['comments'];
   }
 
@@ -32,7 +32,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     if (_commentController.text.isEmpty) return;
 
     final response = await request.post(
-      'http://127.0.0.1:8000/forum/add-comment-flutter/${widget.postId}/',
+      'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/forum/add-comment-flutter/${widget.postId}/',
       {'content': _commentController.text},
     );
 
@@ -53,7 +53,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     }
 
     final response = await request.post(
-      'http://127.0.0.1:8000/forum/toggle-like-flutter/${widget.postId}/',
+      'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/forum/toggle-like-flutter/${widget.postId}/',
       {},
     );
     if (response['status'] == 'success') {

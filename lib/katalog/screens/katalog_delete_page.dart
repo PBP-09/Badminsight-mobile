@@ -12,7 +12,7 @@ class KatalogDeletePage extends StatelessWidget {
 
     Future<void> deleteProduct() async {
       await request.post(
-        'http://127.0.0.1:8000/katalog/$productId/delete/',
+        'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/katalog/$productId/delete/',
         {},
       );
     }
