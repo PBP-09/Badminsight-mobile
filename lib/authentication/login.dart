@@ -14,6 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -29,29 +31,28 @@ class _LoginPageState extends State<LoginPage> {
             TextField(controller: _passwordController, decoration: const InputDecoration(labelText: 'Password'), obscureText: true),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () async {
-                String username = _usernameController.text;
-                String password = _passwordController.text;
-
-                
-                final response = await request.login("http://127.0.0.1:8000/auth/login/", {
-                  'username': username,
-                  'password': password,
-                });
-
-                if (request.loggedIn) {
-                  if (context.mounted) {
-                    Navigator.pop(context); // Go back to main menu
-                  }
-                } else {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(response['message'] ?? "Login Gagal")),
-                    );
-                  }
+              onPressed: _isLoading ? null : () async {
+                if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Please fill all fields")),
+                  );
+                  return;
                 }
+                setState(() => _isLoading = true);
+                final response = await request.login("http://127.0.0.1:8000/auth/login/", {
+                  'username': _usernameController.text,
+                  'password': _passwordController.text,
+                });
+                if (request.loggedIn) {
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(response['message'] ?? "Login failed")),
+                  );
+                }
+                setState(() => _isLoading = false);
               },
-              child: const Text('Login'),
+              child: _isLoading ? const CircularProgressIndicator(color: Colors.white) : const Text('Login'),
             ),
           ],
         ),

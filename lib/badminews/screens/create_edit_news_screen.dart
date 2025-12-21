@@ -119,28 +119,6 @@ class _CreateEditNewsScreenState extends State<CreateEditNewsScreen> {
         title: Text(isEditing ? 'Edit News' : 'Create News'),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
-        actions: [
-          if (_isLoading)
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              ),
-            )
-          else
-            TextButton(
-              onPressed: _saveNews,
-              child: Text(
-                isEditing ? 'Update' : 'Create',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -224,6 +202,16 @@ class _CreateEditNewsScreenState extends State<CreateEditNewsScreen> {
                   'Note: Image upload will be available in a future update. For now, you can create text-only news.',
                   style: TextStyle(color: Colors.blue),
                 ),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _isLoading ? null : _saveNews,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : Text(isEditing ? 'Update News' : 'Create News'),
               ),
             ],
           ),

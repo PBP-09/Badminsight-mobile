@@ -16,6 +16,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -32,62 +34,48 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(controller: _confirmPasswordController, decoration: const InputDecoration(labelText: 'Confirm Password'), obscureText: true),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () async {
-  String username = _usernameController.text;
-  String password = _passwordController.text;
-  String confirmPassword = _confirmPasswordController.text;
-
-  // Validasi sederhana di client biar cepet
-  if (username.isEmpty || password.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Username dan password tidak boleh kosong")),
-    );
-    return;
-  }
-
-  if (password != confirmPassword) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Password tidak cocok")),
-    );
-    return;
-  }
-
-  try {
-    // 1. Pake 127.0.0.1 (lebih stabil di Chrome dibanding localhost)
-    // 2. WAJIB pake garis miring '/' di akhir biar gak di-redirect Django
-    final response = await request.post("http://127.0.0.1:8000/auth/register/", {
-      'username': username,
-      'password1': password,
-      'password2': confirmPassword,
-    });
-
-    if (context.mounted) {
-      if (response['status'] == 'success') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Registrasi Berhasil! Silakan Login.")),
-        );
-        // Pindah ke LoginPage, bukan pop (biar pasti ke halaman login)
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response['message'] ?? "Registrasi Gagal")),
-        );
-      }
-    }
-  } catch (e) {
-    // Biar lu tau error aslinya apa di debug console
-    print("Error pas register: $e");
-    if (context.mounted) {
-       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text("Terjadi kesalahan koneksi ke server.")),
-       );
-    }
-  }
-},
-              child: const Text('Daftar'),
+              onPressed: _isLoading ? null : () async {
+                if (_usernameController.text.isEmpty || _passwordController.text.isEmpty || _confirmPasswordController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("All fields are required")),
+                  );
+                  return;
+                }
+                if (_passwordController.text != _confirmPasswordController.text) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Passwords do not match")),
+                  );
+                  return;
+                }
+                setState(() => _isLoading = true);
+                try {
+                  final response = await request.post("http://127.0.0.1:8000/auth/register/", {
+                    'username': _usernameController.text,
+                    'password1': _passwordController.text,
+                    'password2': _confirmPasswordController.text,
+                  });
+                  if (response['status'] == 'success') {
+                    _usernameController.clear();
+                    _passwordController.clear();
+                    _confirmPasswordController.clear();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Registration successful! Please login.")),
+                    );
+                    Navigator.pop(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(response['message'] ?? "Registration failed")),
+                    );
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error: $e")),
+                  );
+                } finally {
+                  setState(() => _isLoading = false);
+                }
+              },
+              child: _isLoading ? const CircularProgressIndicator(color: Colors.white) : const Text('Daftar'),
             ),
           ],
         ),

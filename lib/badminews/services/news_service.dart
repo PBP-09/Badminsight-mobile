@@ -2,7 +2,9 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import '../models/news.dart';
 
 class NewsService {
-  static const String baseUrl = 'http://127.0.0.1:8000'; // localhost for web development
+  // static const String baseUrl = 'http://127.0.0.1:8000'; // localhost for web development
+  
+  static const String baseUrl = 'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/';
 
   Future<List<News>> getNews(CookieRequest request, {
     String? category,
@@ -86,10 +88,10 @@ class NewsService {
       'category': category,
     });
 
-    if (response != null) {
-      return News.fromJson(response);
+    if (response != null && response['success'] == true) {
+      return News.fromJson(response['news_data']);
     } else {
-      throw Exception('Failed to update news');
+      throw Exception(response?['message'] ?? 'Failed to update news');
     }
   }
 
