@@ -13,7 +13,7 @@ class _PostFormPageState extends State<PostFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = "";
   String _content = "";
-  String _category = "DISKUSI"; // Default sesuai Choice di Django
+  final String _category = "DISKUSI"; // Default sesuai Choice di Django
 
   @override
   Widget build(BuildContext context) {
