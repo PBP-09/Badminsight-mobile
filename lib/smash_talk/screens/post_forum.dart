@@ -45,7 +45,7 @@ class _PostFormPageState extends State<PostFormPage> {
                   if (_formKey.currentState!.validate()) {
                     // Tembak ke path 'create-post-flutter/' di bawah 'forum/'
                     final response = await request.post(
-                      "http://127.0.0.1:8000/forum/create-post-flutter/",
+                      "http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/create-post-flutter/",
                       {
                         'title': _title,
                         'content': _content,

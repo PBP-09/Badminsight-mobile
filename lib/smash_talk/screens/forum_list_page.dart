@@ -133,7 +133,7 @@ class _ForumListPageState extends State<ForumListPage> {
           Expanded(
             child: FutureBuilder(
               future: request.get(
-                'http://127.0.0.1:8000/forum/json/?q=$_searchQuery&category=$_selectedCategory'
+                'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/json/?q=$_searchQuery&category=$_selectedCategory'
               ),
               builder: (context, AsyncSnapshot snapshot) {
                 // 1. Cek Loading

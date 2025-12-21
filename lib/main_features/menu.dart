@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final request = context.read<CookieRequest>(); // Pakai read biar gak rebuild loop
     try {
       // Ganti URL sesuai environment (127.0.0.1 untuk Chrome)
-      final response = await request.get('http://127.0.0.1:8000/api/players/');
+      final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/api/players/');
       
       if (mounted) {
         setState(() {
