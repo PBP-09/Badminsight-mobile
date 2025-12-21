@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:badminsights_mobile/main_features/menu.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:badminsights_mobile/authentication/login.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
-import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,155 +13,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (_) {
-        CookieRequest request = CookieRequest();
-        return request;
-      },
+      create: (_) => CookieRequest(),
       child: MaterialApp(
         title: 'Badminsights Mobile',
         theme: ThemeData(
           primaryColor: const Color(0xFF2C3E50),
           scaffoldBackgroundColor: const Color(0xFFF8F7F4),
           cardColor: Colors.white,
-          textTheme: const TextTheme(
-            headlineLarge: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2C3E50),
-              fontFamily: 'serif',
-            ),
-            bodyLarge: TextStyle(
-              fontSize: 16,
-              color: Color(0xFF8492A6),
-            ),
-            titleMedium: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF2C3E50),
-            ),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
-          outlinedButtonTheme: OutlinedButtonThemeData(
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.black),
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
         ),
-        home: const LandingPage(),
+        home: const MyHomePage(),
       ),
     );
   }
-}
-
-class LandingPage extends StatelessWidget {
-  const LandingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Badminsights'),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'All Things Badminton, in One Place.',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Discover detailed player bios, explore official merch, and join discussions with badminton fans worldwide — only on Badminsights.',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Navigate to Players')),
-                      );
-                    },
-                    child: const Text('Explore Players'),
-                  ),
-                ],
-              ),
-            ),
-            const FeaturedPlayerCard(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: const [
-                  ModuleCard(
-                    icon: Icons.forum,
-                    title: 'SmashTalk',
-                    description: 'Forum untuk bertanya, berbagi pengalaman.',
-                    routeName: 'forum',
-                  ),
-                  ModuleCard(
-                    icon: Icons.article,
-                    title: 'BadmiNews',
-                    description: 'Temukan berita terbaru seputar dunia badminton.',
-                    routeName: 'news',
-                  ),
-                  ModuleCard(
-                    icon: Icons.shopping_bag,
-                    title: 'Merch',
-                    description: 'Temukan perlengkapan badminton terbaik.',
-                    routeName: 'merch',
-                  ),
-                  ModuleCard(
-                    icon: Icons.favorite,
-                    title: 'Pemain Favorit',
-                    description: 'Lihat daftar pemain yang sudah Anda tandai.',
-                    routeName: 'favorites',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+<<<<<<< HEAD
 }
 
 class FeaturedPlayerCard extends StatelessWidget {
@@ -263,19 +125,18 @@ class FeaturedPlayerCard extends StatelessWidget {
   }
 }
 
+
 class ModuleCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final Widget route;
+
   const ModuleCard({
     super.key,
     required this.icon,
     required this.title,
-    required this.description,
-    required this.routeName,
+    required this.route,
   });
-
-  final IconData icon;
-  final String title;
-  final String description;
-  final String routeName;
 
   @override
   Widget build(BuildContext context) {
@@ -302,12 +163,15 @@ class ModuleCard extends StatelessWidget {
     }
 
     return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: navigate,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => route),
+          );
+        },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -349,20 +213,15 @@ class ModuleCard extends StatelessWidget {
               ),
             ],
           ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40),
+            const SizedBox(height: 12),
+            Text(title, style: const TextStyle(fontSize: 16)),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class PlaceholderPage extends StatelessWidget {
-  const PlaceholderPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("BadminSights")),
-      body: const Center(child: Text("Silakan buat LoginPage di folder authentication")),
     );
   }
 }

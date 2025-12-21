@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,17 +32,14 @@ class _LoginPageState extends State<LoginPage> {
                 String password = _passwordController.text;
 
                 
-                final response = await request.login("http://localhost/auth/login/", {
+                final response = await request.login("http://127.0.0.1:8000/auth/login/", {
                   'username': username,
                   'password': password,
                 });
 
                 if (request.loggedIn) {
                   if (context.mounted) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ForumListPage()),
-                    );
+                    Navigator.pop(context); // Go back to main menu
                   }
                 } else {
                   if (context.mounted) {
