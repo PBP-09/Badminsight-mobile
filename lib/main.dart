@@ -3,6 +3,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart'; // Jangan lupa ini
 import 'package:provider/provider.dart'; // Dan ini
 import 'package:badminsights_mobile/authentication/login.dart';
 import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart'; // Sesuaikan path ini
+import 'package:badminsights_mobile/left_drawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,6 +75,7 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const LeftDrawer(),
       appBar: AppBar(
         title: const Text('Badminsights'),
         backgroundColor: Theme.of(context).primaryColor,
