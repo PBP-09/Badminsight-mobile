@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/katalog.dart';
 import '../widgets/product_card.dart';
 import 'katalog_edit_page.dart';
+import 'package:badminsights_mobile/left_drawer.dart'; 
 
 class KatalogListPage extends StatefulWidget {
   const KatalogListPage({super.key});
@@ -20,11 +21,11 @@ class _KatalogListPageState extends State<KatalogListPage> {
 
   final categories = [
     '',
-    'racket',
-    'shuttlecock',
-    'jersey',
-    'shoes',
-    'accessories',
+    'Racket',
+    'Shuttlecock',
+    'Jersey',
+    'Shoes',
+    'Accessories',
   ];
 
   Future<void> fetchProducts() async {
@@ -68,6 +69,7 @@ class _KatalogListPageState extends State<KatalogListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const LeftDrawer(), 
       appBar: AppBar(title: const Text('Katalog Merch')),
       body: Center(
         child: ConstrainedBox(
