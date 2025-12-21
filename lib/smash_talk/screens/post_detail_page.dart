@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/smash_talk/models/SmashTalk.dart';
 import 'package:intl/intl.dart';
+import 'package:badminsights_mobile/authentication/login.dart'; // Import Login Page buat redirect
 
 class PostDetailPage extends StatefulWidget {
   final int postId;
@@ -14,24 +15,19 @@ class PostDetailPage extends StatefulWidget {
 }
 
 class _PostDetailPageState extends State<PostDetailPage> {
-  // Controller untuk input komentar
   final TextEditingController _commentController = TextEditingController();
 
-  // Fungsi Fetch Detail Post
   Future<Map<String, dynamic>> fetchPostDetail(CookieRequest request) async {
-    // API: api_post_detail
+    // Gunakan 127.0.0.1 untuk Chrome
     final response = await request.get('http://127.0.0.1:8000/forum/json/${widget.postId}/');
     return response;
   }
 
-  // Fungsi Fetch Komentar
   Future<List<dynamic>> fetchComments(CookieRequest request) async {
-    // API: api_get_comments
     final response = await request.get('http://127.0.0.1:8000/forum/get-comments-flutter/${widget.postId}/');
     return response['comments'];
   }
 
-  // Fungsi Kirim Komentar
   Future<void> sendComment(CookieRequest request) async {
     if (_commentController.text.isEmpty) return;
 
@@ -42,21 +38,26 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
     if (response['status'] == 'success') {
       _commentController.clear();
-      setState(() {}); // Refresh UI untuk menampilkan komentar baru
+      setState(() {}); 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Komentar terkirim!")));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Gagal mengirim komentar.")));
     }
   }
 
-  // Fungsi Like Post
   Future<void> toggleLike(CookieRequest request) async {
+    // Mencegah Guest melakukan Like
+    if (!request.loggedIn) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login dulu untuk menyukai postingan!")));
+      return;
+    }
+
     final response = await request.post(
       'http://127.0.0.1:8000/forum/toggle-like-flutter/${widget.postId}/',
       {},
     );
     if (response['status'] == 'success') {
-      setState(() {}); // Refresh jumlah like
+      setState(() {}); 
     }
   }
 
@@ -78,9 +79,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
             return const Center(child: Text("Gagal memuat data."));
           }
 
-          // Konversi data JSON ke Model SmashTalk
           final post = SmashTalk.fromJson(snapshot.data!);
-          // Ambil jumlah komentar (opsional, kalau ada di API detail)
           final int commentCount = snapshot.data!['comment_count'] ?? 0;
 
           return SingleChildScrollView(
@@ -99,11 +98,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Judul
                       Text(post.title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 12),
-                      
-                      // Metadata (Badge, Author, Date)
                       Row(
                         children: [
                           Container(
@@ -121,12 +117,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      
-                      // Konten
                       Text(post.content, style: const TextStyle(fontSize: 16, height: 1.5)),
                       const SizedBox(height: 16),
-
-                      // Gambar (Jika ada)
                       if (post.image != null && post.image!.isNotEmpty)
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
@@ -137,8 +129,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           ),
                         ),
                       const SizedBox(height: 20),
-
-                      // Tombol Aksi (Like & Hapus)
                       Row(
                         children: [
                           ElevatedButton.icon(
@@ -151,8 +141,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                               elevation: 0,
                             ),
                           ),
-                          // Tampilkan tombol hapus jika user adalah author (perlu logika auth user di sini, 
-                          // tapi sementara bisa dicek kalau API kasih flag is_author)
                         ],
                       )
                     ],
@@ -161,7 +149,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 
                 const SizedBox(height: 16),
 
-                // === BAGIAN 2: STATISTIK (Sidebar Website) ===
+                // === BAGIAN 2: STATISTIK ===
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
@@ -186,30 +174,65 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 const Text("Komentar", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 12),
 
-                // === BAGIAN 3: INPUT KOMENTAR ===
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextField(
-                        controller: _commentController,
-                        decoration: const InputDecoration(
-                          hintText: "Tulis komentar...",
-                          border: InputBorder.none,
+                // === BAGIAN 3: INPUT KOMENTAR (LOGIC GUEST vs USER) ===
+                if (request.loggedIn) ...[
+                  // TAMPILAN UNTUK USER LOGIN: Form Input
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TextField(
+                          controller: _commentController,
+                          decoration: const InputDecoration(
+                            hintText: "Tulis komentar...",
+                            border: InputBorder.none,
+                          ),
+                          maxLines: 3,
                         ),
-                        maxLines: 3,
-                      ),
-                      const Divider(),
-                      ElevatedButton(
-                        onPressed: () => sendComment(request),
-                        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2563EB)),
-                        child: const Text("Kirim Komentar", style: TextStyle(color: Colors.white)),
-                      ),
-                    ],
+                        const Divider(),
+                        ElevatedButton(
+                          onPressed: () => sendComment(request),
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2563EB)),
+                          child: const Text("Kirim Komentar", style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ] else ...[
+                  // TAMPILAN UNTUK GUEST: Pesan Suruh Login
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200, 
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300)
+                    ),
+                    child: Column(
+                      children: [
+                        const Icon(Icons.lock_outline, color: Colors.grey, size: 40),
+                        const SizedBox(height: 8),
+                        const Text(
+                          "Silakan login untuk mengirim komentar.",
+                          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        OutlinedButton(
+                          onPressed: () {
+                             Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginPage()),
+                              );
+                          },
+                          child: const Text("Login Sekarang"),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+                // =======================================================
 
                 const SizedBox(height: 16),
 
