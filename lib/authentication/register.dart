@@ -14,6 +14,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -29,30 +31,48 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(controller: _confirmPasswordController, decoration: const InputDecoration(labelText: 'Confirm Password'), obscureText: true),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () async {
-                // Tembak ke auth/register/
-                final response = await request.post("http://localhost:8000/auth/register/", {
-                  'username': _usernameController.text,
-                  'password1': _passwordController.text,
-                  'password2': _confirmPasswordController.text,
-                });
-
-                if (response['status'] == 'success') {
-                  if (context.mounted) {
+              onPressed: _isLoading ? null : () async {
+                if (_usernameController.text.isEmpty || _passwordController.text.isEmpty || _confirmPasswordController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("All fields are required")),
+                  );
+                  return;
+                }
+                if (_passwordController.text != _confirmPasswordController.text) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Passwords do not match")),
+                  );
+                  return;
+                }
+                setState(() => _isLoading = true);
+                try {
+                  final response = await request.post("http://127.0.0.1:8000/auth/register/", {
+                    'username': _usernameController.text,
+                    'password1': _passwordController.text,
+                    'password2': _confirmPasswordController.text,
+                  });
+                  if (response['status'] == 'success') {
+                    _usernameController.clear();
+                    _passwordController.clear();
+                    _confirmPasswordController.clear();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Registrasi Berhasil! Silakan Login.")),
+                      const SnackBar(content: Text("Registration successful! Please login.")),
                     );
-                    Navigator.pop(context); // Balik ke halaman Login
-                  }
-                } else {
-                  if (context.mounted) {
+                    Navigator.pop(context);
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(response['message'] ?? "Registrasi Gagal")),
+                      SnackBar(content: Text(response['message'] ?? "Registration failed")),
                     );
                   }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error: $e")),
+                  );
+                } finally {
+                  setState(() => _isLoading = false);
                 }
               },
-              child: const Text('Daftar'),
+              child: _isLoading ? const CircularProgressIndicator(color: Colors.white) : const Text('Daftar'),
             ),
           ],
         ),

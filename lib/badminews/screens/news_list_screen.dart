@@ -49,40 +49,39 @@ class _NewsListScreenState extends State<NewsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('BadmiNews'),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () async {
-              final request = context.read<CookieRequest>();
-              if (!request.loggedIn) {
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please login to create news')),
-                  );
-                }
-                return;
-              }
-
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CreateEditNewsScreen()),
-              );
-              if (result == true && mounted) {
-                // Refresh the list if news was created
-                setState(() {
-                  _loadData(context);
-                });
-              }
-            },
-          ),
-        ],
       ),
       drawer: const LeftDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final request = context.read<CookieRequest>();
+          if (!request.loggedIn) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please login to create news')),
+              );
+            }
+            return;
+          }
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateEditNewsScreen()),
+          );
+          if (result == true && mounted) {
+            // Refresh the list if news was created
+            setState(() {
+              _loadData(context);
+            });
+          }
+        },
+        child: const Icon(Icons.add),
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {

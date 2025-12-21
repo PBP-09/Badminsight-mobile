@@ -86,10 +86,10 @@ class NewsService {
       'category': category,
     });
 
-    if (response != null) {
-      return News.fromJson(response);
+    if (response != null && response['success'] == true) {
+      return News.fromJson(response['news_data']);
     } else {
-      throw Exception('Failed to update news');
+      throw Exception(response?['message'] ?? 'Failed to update news');
     }
   }
 
