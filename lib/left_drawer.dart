@@ -6,6 +6,8 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:badminsights_mobile/authentication/login.dart';
 import 'package:badminsights_mobile/authentication/register.dart';
+import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
+import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -61,7 +63,10 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.person_search_outlined, color: Color(0xFF1E3A8A)),
             title: const Text("Who's on Court?"),
             onTap: () {
-              // Navigasi fitur player
+              Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const PlayerEntryListPage()),
+            );
             },
           ),
 
@@ -91,7 +96,10 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.shopping_cart_outlined, color: Color(0xFFBE123C)),
             title: const Text('Merch Store'),
             onTap: () {
-              // Navigasi fitur merchandise
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const KatalogListPage()),
+            );
             },
           ),
 
