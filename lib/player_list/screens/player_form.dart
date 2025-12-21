@@ -1,8 +1,11 @@
+import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 import 'package:flutter/material.dart';
-import 'package:badminsights_mobile/widgets/left_drawer.dart';
+import 'package:badminsights_mobile/left_drawer.dart';
 // Import pbp_django_auth kalo udah di tahap integrasi backend
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:badminsights_mobile/main_features/menu.dart';
 
 class PlayerFormPage extends StatefulWidget {
   const PlayerFormPage({super.key});
@@ -50,6 +53,7 @@ class _PlayerFormPageState extends State<PlayerFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB), // bg-surface
       appBar: AppBar(
@@ -183,45 +187,47 @@ class _PlayerFormPageState extends State<PlayerFormPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Pemain Berhasil Tersimpan'),
-                                content: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Nama: $_name'),
-                                      Text('Negara: $_country'),
-                                      Text('Rank: $_rank'),
-                                      Text('Status: $_status'),
-                                      Text('Tanggal Lahir: ${_dateController.text}'),
-                                      Text('Biografi: $_biography'),
-                                    ],
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.pop(context); // Tutup dialog
-                                      _formKey.currentState!.reset(); // Reset field form
-                                      setState(() {
-                                        // Reset variabel state manual agar UI sinkron
-                                        _dateController.clear();
-                                        _status = "Active"; 
-                                      });
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                     onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        // Mengirim data ke Django menggunakan request.postJson
+                        final response = await request.postJson(
+                          "http://localhost:8000/create-player-flutter/", // Sesuaikan URL dengan Django kamu
+                          jsonEncode(<String, dynamic>{
+                            "name": _name,
+                            "date_of_birth": _birthDate.toIso8601String().split('T')[0], // Format YYYY-MM-DD
+                            "country": _country, // Pastikan ini sesuai dengan Enum di Django (ID/IT)
+                            "bio": _biography,
+                            "category": "men's single", // Bisa ditambahkan field input jika perlu
+                            "status": _status.toLowerCase(), // Ubah ke lowercase sesuai Enum Django
+                            "world_rank": _rank,
+                            "is_featured": false,
+                          }),
+                        );
+
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Player successfully saved!"),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                            // Mengarahkan ke halaman daftar pemain setelah berhasil
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const PlayerEntryListPage()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Something went wrong, please try again."),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         }
-                      },
+                      }
+                    },
                       child: const Text(
                         "Simpan Perubahan",
                         style: TextStyle(fontWeight: FontWeight.bold),
