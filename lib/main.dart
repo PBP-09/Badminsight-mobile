@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart'; // Jangan lupa ini
+import 'package:provider/provider.dart'; // Dan ini
 import 'package:badminsights_mobile/authentication/login.dart';
-
+import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart'; // Sesuaikan path ini
 
 void main() {
   runApp(const MyApp());
@@ -13,49 +13,57 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Badminsights Mobile',
-      theme: ThemeData(
-        primaryColor: const Color(0xFF2C3E50),
-        scaffoldBackgroundColor: const Color(0xFFF8F7F4),
-        cardColor: Colors.white,
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF2C3E50),
-            fontFamily: 'serif',
+    // === BAGIAN PENTING: BUNGKUS DENGAN PROVIDER ===
+    return Provider(
+      create: (_) {
+        CookieRequest request = CookieRequest();
+        return request;
+      },
+      child: MaterialApp(
+        title: 'Badminsights Mobile',
+        theme: ThemeData(
+          // ... theme lu yang tadi ...
+          primaryColor: const Color(0xFF2C3E50),
+          scaffoldBackgroundColor: const Color(0xFFF8F7F4),
+          cardColor: Colors.white,
+          textTheme: const TextTheme(
+            headlineLarge: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2C3E50),
+              fontFamily: 'serif',
+            ),
+            bodyLarge: TextStyle(
+              fontSize: 16,
+              color: Color(0xFF8492A6),
+            ),
+            titleMedium: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF2C3E50),
+            ),
           ),
-          bodyLarge: TextStyle(
-            fontSize: 16,
-            color: Color(0xFF8492A6),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
           ),
-          titleMedium: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF2C3E50),
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.black),
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
           ),
         ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.black),
-            foregroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
+        home: const LandingPage(),
       ),
-      home: const LandingPage(),
     );
   }
 }
@@ -197,7 +205,6 @@ class FeaturedPlayerCard extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  // Placeholder for image
                   Container(
                     width: 80,
                     height: 80,
@@ -262,6 +269,7 @@ class FeaturedPlayerCard extends StatelessWidget {
   }
 }
 
+// === BAGIAN PENTING: Class ModuleCard yang sudah diperbaiki tombolnya ===
 class ModuleCard extends StatelessWidget {
   const ModuleCard({
     super.key,
@@ -278,17 +286,31 @@ class ModuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fungsi navigasi yang dipanggil di InkWell dan Button
+    void navigate() {
+      if (routeName == 'forum') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ForumListPage()),
+        );
+      } else if (routeName == 'news') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('News coming soon!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Navigate to $title')),
+        );
+      }
+    }
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Navigate to $title')),
-          );
-        },
+        onTap: navigate, // Navigasi saat kartu diklik
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -320,11 +342,7 @@ class ModuleCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Navigate to $title')),
-                    );
-                  },
+                  onPressed: navigate, // Navigasi saat tombol diklik
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     textStyle: const TextStyle(fontSize: 10),
