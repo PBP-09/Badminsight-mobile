@@ -37,7 +37,7 @@ class _KatalogEditPageState extends State<KatalogEditPage> {
     final request = context.read<CookieRequest>();
 
     final url = widget.product == null
-        ? 'http://127.0.0.1:8000/katalog/create/'
+        ? 'http://127.0.0.1:8000/katalog/api/save/'
         : 'http://127.0.0.1:8000/katalog/${widget.product!.id}/edit/';
 
     final response = await request.post(url, {
