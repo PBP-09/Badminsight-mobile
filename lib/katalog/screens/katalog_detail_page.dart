@@ -10,7 +10,7 @@ class KatalogDetailPage extends StatelessWidget {
 
   Future<Katalog> fetchDetail() async {
     final res =
-        await http.get(Uri.parse('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/katalog/json/'));
+        await http.get(Uri.parse('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/json/'));
     return katalogFromJson(res.body)
         .firstWhere((e) => e.id == productId);
   }

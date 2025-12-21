@@ -36,7 +36,7 @@ class _KatalogEditPageState extends State<KatalogEditPage> {
   Future<void> submit() async {
     final request = context.read<CookieRequest>();
 
-    final url = 'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/katalog/api/save/';
+    final url = 'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/api/save/';
 
     final response = await request.post(url, {
       if (widget.product != null)

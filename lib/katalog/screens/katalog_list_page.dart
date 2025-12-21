@@ -30,7 +30,7 @@ class _KatalogListPageState extends State<KatalogListPage> {
 
   Future<void> fetchProducts() async {
     final res = await http.get(
-      Uri.parse('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id:8000/katalog/json/'),
+      Uri.parse('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/json/'),
     );
     final data = katalogFromJson(res.body);
     setState(() {
