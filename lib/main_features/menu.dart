@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
 import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
+import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
+import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -323,7 +325,19 @@ class ItemCard extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => const ForumListPage()),
             );
-          } else {
+          }
+          else if (item.name =="Who's on Court?"){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PlayerEntryListPage()),
+            );
+          } 
+          else if (item.name =="Merch"){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const KatalogListPage()),
+            );
+          }else {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(content: Text("Membuka ${item.name}... (Coming Soon)")));
