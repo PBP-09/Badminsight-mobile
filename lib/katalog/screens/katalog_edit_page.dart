@@ -36,11 +36,12 @@ class _KatalogEditPageState extends State<KatalogEditPage> {
   Future<void> submit() async {
     final request = context.read<CookieRequest>();
 
-    final url = widget.product == null
-        ? 'http://127.0.0.1:8000/katalog/api/save/'
-        : 'http://127.0.0.1:8000/katalog/${widget.product!.id}/edit/';
+    final url = 'http://127.0.0.1:8000/katalog/api/save/';
 
     final response = await request.post(url, {
+      if (widget.product != null)
+        'product_id': widget.product!.id.toString(),
+
       'name': name.text.trim(),
       'category': category,
       'price': price.text,
