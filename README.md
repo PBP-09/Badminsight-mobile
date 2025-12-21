@@ -98,3 +98,6 @@ Design web menggunakan Figma.
 
 
 [Link Figma](https://www.figma.com/design/CtHs0FmDnOeHgFjWijFOZd/Badminsight_mobile?node-id=0-1&p=f&t=VkftxWAqHWMXN8oT-0)
+
+Link Aplikasi: https://app.bitrise.io/app/3ee21fef-a462-4695-a022-8c51bcf88f12/installable-artifacts/6852c1446b91cb15/public-install-page/261986b0e06eb8dbf29ea91d37442c67
+
