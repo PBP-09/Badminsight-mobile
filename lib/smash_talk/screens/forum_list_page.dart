@@ -5,6 +5,7 @@ import 'package:badminsights_mobile/smash_talk/models/SmashTalk.dart';
 import 'package:badminsights_mobile/smash_talk/screens/post_forum.dart'; 
 import 'package:badminsights_mobile/smash_talk/screens/post_detail_page.dart'; 
 import 'package:intl/intl.dart'; 
+import 'package:badminsights_mobile/left_drawer.dart'; 
 
 class ForumListPage extends StatefulWidget {
   const ForumListPage({super.key});
@@ -15,6 +16,7 @@ class ForumListPage extends StatefulWidget {
 
 class _ForumListPageState extends State<ForumListPage> {
   // Variabel untuk Search dan Filter
+  
   String _searchQuery = "";
   String _selectedCategory = ""; // Kosong artinya "Semua"
   final TextEditingController _searchController = TextEditingController();
@@ -36,6 +38,7 @@ class _ForumListPageState extends State<ForumListPage> {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
+      drawer: const LeftDrawer(), 
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
         title: const Text("Smash Talk", style: TextStyle(fontWeight: FontWeight.bold)),
