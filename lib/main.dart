@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart'; // Jangan lupa ini
-import 'package:provider/provider.dart'; // Dan ini
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:badminsights_mobile/authentication/login.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart'; // Sesuaikan path ini
+import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
+import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // === BAGIAN PENTING: BUNGKUS DENGAN PROVIDER ===
     return Provider(
       create: (_) {
         CookieRequest request = CookieRequest();
@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Badminsights Mobile',
         theme: ThemeData(
-          // ... theme lu yang tadi ...
           primaryColor: const Color(0xFF2C3E50),
           scaffoldBackgroundColor: const Color(0xFFF8F7F4),
           cardColor: Colors.white,
@@ -83,7 +82,6 @@ class LandingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Section
             Container(
               padding: const EdgeInsets.all(24),
               margin: const EdgeInsets.all(16),
@@ -124,11 +122,7 @@ class LandingPage extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Featured Player Section
             const FeaturedPlayerCard(),
-
-            // Module Grid
             Padding(
               padding: const EdgeInsets.all(16),
               child: GridView.count(
@@ -269,7 +263,6 @@ class FeaturedPlayerCard extends StatelessWidget {
   }
 }
 
-// === BAGIAN PENTING: Class ModuleCard yang sudah diperbaiki tombolnya ===
 class ModuleCard extends StatelessWidget {
   const ModuleCard({
     super.key,
@@ -286,12 +279,16 @@ class ModuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fungsi navigasi yang dipanggil di InkWell dan Button
     void navigate() {
       if (routeName == 'forum') {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const ForumListPage()),
+        );
+      } else if (routeName == 'merch') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const KatalogListPage()),
         );
       } else if (routeName == 'news') {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -310,7 +307,7 @@ class ModuleCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: navigate, // Navigasi saat kartu diklik
+        onTap: navigate,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -342,7 +339,7 @@ class ModuleCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: navigate, // Navigasi saat tombol diklik
+                  onPressed: navigate,
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     textStyle: const TextStyle(fontSize: 10),
@@ -358,7 +355,6 @@ class ModuleCard extends StatelessWidget {
   }
 }
 
-// Halaman sementara sebelum lu buat LoginPage
 class PlaceholderPage extends StatelessWidget {
   const PlaceholderPage({super.key});
 
