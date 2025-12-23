@@ -132,7 +132,7 @@ class LeftDrawer extends StatelessWidget {
                   leading: const Icon(Icons.logout, color: Colors.red),
                   title: const Text('Logout'),
                   onTap: () async {
-                    final response = await request.logout("https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/");
+                    final response = await request.logout("http://localhost:8000/auth/logout/");
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(response['message'] ?? "Logged out")),
