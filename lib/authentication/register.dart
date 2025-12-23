@@ -106,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             setState(() => _isLoading = true);
                             
                             // Ganti ke https kalau nanti mau demo pake PWS
-                            final response = await request.post("http://localhost:8000/auth/register/", {
+                            final response = await request.post("https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/register/", {
                               'username': username,
                               'password1': password1,
                               'password2': password2,

@@ -135,7 +135,7 @@ class _ForumListPageState extends State<ForumListPage> {
             // === 3. LIST POSTINGAN (Cards) ===
             Expanded(
               child: FutureBuilder(
-                future: request.get('http://localhost:8000/forum/json/?q=$_searchQuery&category=$_selectedCategory'),
+                future: request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/json/?q=$_searchQuery&category=$_selectedCategory'),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator(color: Colors.white));
                   if (!snapshot.hasData) return const Center(child: Text("Gagal memuat data", style: TextStyle(color: Colors.white)));
@@ -257,16 +257,29 @@ class _ForumListPageState extends State<ForumListPage> {
                   child: Text(post.content, style: const TextStyle(fontSize: 13, color: Colors.black87, height: 1.3), maxLines: 2, overflow: TextOverflow.ellipsis),
                 ),
 
-                // Preview Gambar (Gak gede-gede amat)
+                // Preview Gambar (Disesuaikan untuk PWS)
                 if (post.image != null && post.image!.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        (post.image!.contains('localhost') || post.image!.contains('127.0.0.1')) ? post.image! : post.image!.replaceFirst('http://', 'https://'),
-                        height: 150, width: double.infinity, fit: BoxFit.cover,
-                        errorBuilder: (ctx, err, stack) => Container(height: 50, color: Colors.grey[100], child: const Icon(Icons.broken_image)),
+                        // LOGIC SAKTI UNTUK PWS:
+                        // 1. Ganti semua localhost/127.0.0.1/10.0.2.2 jadi domain PWS lo
+                        // 2. Pastikan protokolnya HTTPS
+                        post.image!
+                            .replaceAll('http://localhost:8000', 'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id')
+                            .replaceAll('http://127.0.0.1:8000', 'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id')
+                            .replaceAll('http://10.0.2.2:8000', 'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id')
+                            .replaceFirst('http://', 'https://'), // Paksa HTTPS
+                        height: 150, 
+                        width: double.infinity, 
+                        fit: BoxFit.cover,
+                        errorBuilder: (ctx, err, stack) => Container(
+                          height: 50, 
+                          color: Colors.grey[100], 
+                          child: const Icon(Icons.broken_image, color: Colors.grey)
+                        ),
                       ),
                     ),
                   ),

@@ -18,19 +18,19 @@ class _PostDetailPageState extends State<PostDetailPage> {
   final TextEditingController _commentController = TextEditingController();
 
   Future<Map<String, dynamic>> fetchPostDetail(CookieRequest request) async {
-    final response = await request.get('http://localhost:8000/forum/json/${widget.postId}/');
+    final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/json/${widget.postId}/');
     return response;
   }
 
   Future<List<dynamic>> fetchComments(CookieRequest request) async {
-    final response = await request.get('http://localhost:8000/forum/get-comments-flutter/${widget.postId}/');
+    final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/get-comments-flutter/${widget.postId}/');
     return response['comments'];
   }
 
   Future<void> sendComment(CookieRequest request) async {
     if (_commentController.text.trim().isEmpty) return;
     final response = await request.post(
-      'http://localhost:8000/forum/add-comment-flutter/${widget.postId}/',
+      'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/add-comment-flutter/${widget.postId}/',
       {'content': _commentController.text},
     );
     if (response['status'] == 'success') {
@@ -60,7 +60,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
   // Jika sudah login, lanjut tembak API Like
   final response = await request.post(
-    'http://localhost:8000/forum/toggle-like-flutter/${widget.postId}/',
+    'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/toggle-like-flutter/${widget.postId}/',
     {},
   );
   
@@ -70,7 +70,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
 }
 
   Future<void> deletePost(CookieRequest request) async {
-    final response = await request.post('http://localhost:8000/forum/delete-post-flutter/${widget.postId}/', {});
+    final response = await request.post('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/delete-post-flutter/${widget.postId}/', {});
     if (context.mounted && response['status'] == 'success') {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Postingan dihapus!")));

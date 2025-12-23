@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final request = context.read<CookieRequest>(); // Pakai read biar gak rebuild loop
     try {
       // Ganti URL sesuai environment (127.0.0.1 untuk Chrome)
-      final response = await request.get('http://localhost:8000/api/players/');
+      final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/api/players/');
       
       if (mounted) {
         setState(() {
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     IconButton(
                       icon: const Icon(Icons.logout, color: Colors.white),
                       onPressed: () async {
-                        final response = await request.logout("https://localhost:8000/auth/logout/");
+                        final response = await request.logout("https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/");
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(response['message'] ?? "Logged out")),
