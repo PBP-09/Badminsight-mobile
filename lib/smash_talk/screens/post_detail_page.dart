@@ -18,13 +18,13 @@ class _PostDetailPageState extends State<PostDetailPage> {
   final TextEditingController _commentController = TextEditingController();
 
   Future<Map<String, dynamic>> fetchPostDetail(CookieRequest request) async {
-    // Gunakan 127.0.0.1 untuk Chrome
-    final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/json/${widget.postId}/');
+  
+    final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/json/${widget.postId}/');
     return response;
   }
 
   Future<List<dynamic>> fetchComments(CookieRequest request) async {
-    final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/get-comments-flutter/${widget.postId}/');
+    final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/get-comments-flutter/${widget.postId}/');
     return response['comments'];
   }
 
@@ -32,7 +32,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     if (_commentController.text.isEmpty) return;
 
     final response = await request.post(
-      'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/add-comment-flutter/${widget.postId}/',
+      'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/add-comment-flutter/${widget.postId}/',
       {'content': _commentController.text},
     );
 
@@ -53,7 +53,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     }
 
     final response = await request.post(
-      'http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/toggle-like-flutter/${widget.postId}/',
+      'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/forum/toggle-like-flutter/${widget.postId}/',
       {},
     );
     if (response['status'] == 'success') {
@@ -123,7 +123,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            post.image!.replaceAll('10.0.2.2', '127.0.0.1'),
+                            post.image!.replaceAll('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id', '127.0.0.1',),
                             fit: BoxFit.cover,
                             errorBuilder: (ctx, err, stack) => const SizedBox(),
                           ),

@@ -18,7 +18,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Future<List<Bookmark>> fetchBookmarks(CookieRequest request) async {
     // Sesuaikan URL ini dengan endpoint API Bookmark temanmu
     // Contoh: http://127.0.0.1:8000/bookmark/json/
-  final response = await request.get("http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/json/"); 
+  final response = await request.get("https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/json/"); 
     
     // Parsing JSON (sesuaikan dengan struktur JSON bookmark)
     List<Bookmark> listBookmark = [];
