@@ -1,12 +1,9 @@
 import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
-// Import pbp_django_auth kalo udah di tahap integrasi backend
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'package:badminsights_mobile/main_features/menu.dart';
-
 class PlayerFormPage extends StatefulWidget {
   const PlayerFormPage({super.key});
 
