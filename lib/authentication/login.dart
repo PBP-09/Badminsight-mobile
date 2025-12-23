@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() => _isLoading = true);
                             
                             // Ganti ke https kalau nanti mau demo pake PWS
-                            final response = await request.login("http://localhost:8000/auth/login/", {
+                            final response = await request.login("https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/login/", {
                               'username': _usernameController.text,
                               'password': _passwordController.text,
                             });
