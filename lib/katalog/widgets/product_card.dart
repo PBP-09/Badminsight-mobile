@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:badminsights_mobile/authentication/auth_state.dart';
 import '../models/katalog.dart';
 import '../screens/katalog_detail_page.dart';
 import '../screens/katalog_edit_page.dart';
@@ -33,100 +36,101 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ⛔ JANGAN PAKAI loggedIn UNTUK ADMIN
+    final isAdmin = AuthState.isAdmin;
+
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       clipBehavior: Clip.antiAlias,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
               AspectRatio(
-                aspectRatio: 4 / 3,
-                child: Image.network(
-                  product.imageUrl.isNotEmpty
-                      ? product.imageUrl
-                      : 'https://via.placeholder.com/400x300',
-                  fit: BoxFit.cover,
+                  aspectRatio: 4 / 3,
+                  child: Image.network(
+                    product.imageUrl.isNotEmpty ? product.imageUrl : 'invalid',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey.shade200,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.image_not_supported,
+                                size: 48, color: Colors.grey),
+                            SizedBox(height: 8),
+                            Text(
+                              'No Image',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.white),
-                      onPressed: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                KatalogEditPage(product: product),
-                          ),
-                        );
 
-                        if (result == true) {
-                          onRefresh();
-                        }
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.white),
-                      onPressed: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (_) =>
-                              KatalogDeletePage(productId: product.id),
-                        );
-                        
-                        if (result == true) {
-                          onRefresh();
-                        }
-                      },
-                    ),
-                  ],
+              if (isAdmin)
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit, color: Colors.white),
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  KatalogEditPage(product: product),
+                            ),
+                          );
+                          if (result == true) onRefresh();
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.white),
+                        onPressed: () async {
+                          final result = await showDialog(
+                            context: context,
+                            builder: (_) =>
+                                KatalogDeletePage(productId: product.id),
+                          );
+                          if (result == true) onRefresh();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   product.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 15, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  categoryLabel(product.category),
-                  style: const TextStyle(color: Colors.grey),
-                ),
+                Text(categoryLabel(product.category),
+                    style: const TextStyle(color: Colors.grey)),
                 const SizedBox(height: 8),
-                Text(
-                  'Rp ${product.price}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                product.rating > 0
-                    ? Text('Rating: ${product.rating.toStringAsFixed(1)} / 5')
-                    : const Text(
-                        'Belum ada rating',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                const SizedBox(height: 12),
+                Text('Rp ${product.price}',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

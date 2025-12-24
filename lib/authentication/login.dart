@@ -5,6 +5,7 @@ import 'package:badminsights_mobile/authentication/register.dart';
 import 'package:badminsights_mobile/main_features/menu.dart';
 import 'dart:convert';
 import 'package:badminsights_mobile/main_splash_screen.dart'; 
+import 'package:badminsights_mobile/authentication/auth_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -92,6 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                               'username': _usernameController.text,
                               'password': _passwordController.text,
                             });
+
+                            AuthState.isAdmin = response != null && response['is_staff'] == true;
 
                             if (request.loggedIn) {
                               if (context.mounted) {

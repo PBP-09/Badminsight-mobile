@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:badminsights_mobile/authentication/auth_state.dart';
 import '../models/katalog.dart';
 import '../widgets/product_card.dart';
 import 'katalog_edit_page.dart';
@@ -30,8 +33,7 @@ class _KatalogListPageState extends State<KatalogListPage> {
 
   Future<void> fetchProducts() async {
     final res = await http.get(
-      Uri.parse(
-          'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/json/'),
+      Uri.parse('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/json/'),
     );
     final data = katalogFromJson(res.body);
     setState(() {
@@ -62,53 +64,110 @@ class _KatalogListPageState extends State<KatalogListPage> {
   }
 
   @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // 🔑 SATU-SATUNYA LOGIC ROLE
+    final isAdmin = AuthState.isAdmin;
+
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 600;
+    final isTablet = width >= 600 && width < 900;
+    final crossAxisCount = isMobile ? 1 : isTablet ? 2 : 4;
+
     return Scaffold(
       drawer: const LeftDrawer(),
       appBar: AppBar(title: const Text('Katalog Merch')),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Cari produk...',
-                          border: OutlineInputBorder(),
-                        ),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            if (isMobile)
+              Column(
+                children: [
+                  TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      hintText: 'Cari produk...',
+                      border: OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  DropdownButtonFormField<String>(
+                    value: selectedCategory,
+                    isDense: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    items: categories
+                        .map(
+                          (c) => DropdownMenuItem(
+                            value: c,
+                            child: Text(
+                              c.isEmpty ? 'Semua Kategori' : c,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (v) {
+                      selectedCategory = v!;
+                      applyFilter();
+                    },
+                  ),
+                  const SizedBox(height: 8),
+
+                  // ✅ HANYA ADMIN (DESAIN TETAP)
+                  if (isAdmin)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const KatalogEditPage(),
+                            ),
+                          );
+                          if (result == true) fetchProducts();
+                        },
+                        child: const Text('+ Tambah Produk'),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    DropdownButton<String>(
-                      value: selectedCategory,
-                      items: categories
-                          .map(
-                            (c) => DropdownMenuItem(
-                              value: c,
-                              child: Text(
-                                c.isEmpty ? 'Semua Kategori' : c,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (v) {
-                        selectedCategory = v!;
-                        applyFilter();
-                      },
+                ],
+              )
+            else
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                        hintText: 'Cari produk...',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                    const SizedBox(width: 12),
+                  ),
+                  const SizedBox(width: 12),
+                  DropdownButton<String>(
+                    value: selectedCategory,
+                    items: categories
+                        .map(
+                          (c) => DropdownMenuItem(
+                            value: c,
+                            child: Text(
+                              c.isEmpty ? 'Semua Kategori' : c,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (v) {
+                      selectedCategory = v!;
+                      applyFilter();
+                    },
+                  ),
+                  const SizedBox(width: 12),
+
+                  // ✅ HANYA ADMIN (DESAIN TETAP)
+                  if (isAdmin)
                     ElevatedButton(
                       onPressed: () async {
                         final result = await Navigator.push(
@@ -117,34 +176,29 @@ class _KatalogListPageState extends State<KatalogListPage> {
                             builder: (_) => const KatalogEditPage(),
                           ),
                         );
-                        if (result == true) {
-                          await fetchProducts();
-                        }
+                        if (result == true) fetchProducts();
                       },
                       child: const Text('+ Tambah Produk'),
                     ),
-                  ],
+                ],
+              ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  childAspectRatio: isMobile ? 0.92 : 0.72,
+                  crossAxisSpacing: isMobile ? 8 : 12,
+                  mainAxisSpacing: isMobile ? 8 : 12,
+                ),
+                itemCount: filteredProducts.length,
+                itemBuilder: (c, i) => ProductCard(
+                  product: filteredProducts[i],
+                  onRefresh: fetchProducts,
                 ),
               ),
-              Expanded(
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: 0.72,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemCount: filteredProducts.length,
-                  itemBuilder: (c, i) => ProductCard(
-                    product: filteredProducts[i],
-                    onRefresh: fetchProducts,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
