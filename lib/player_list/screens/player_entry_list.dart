@@ -5,7 +5,6 @@ import 'package:badminsights_mobile/player_list/widgets/player_entry_card.dart';
 import 'package:badminsights_mobile/player_list/screens/player_detail.dart'; // Pastikan path import benar
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:badminsights_mobile/left_drawer.dart'; 
 
 
 class PlayerEntryListPage extends StatefulWidget {

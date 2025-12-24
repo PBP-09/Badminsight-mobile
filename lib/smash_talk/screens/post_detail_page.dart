@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/smash_talk/models/SmashTalk.dart';
-import 'package:intl/intl.dart';
-import 'package:badminsights_mobile/authentication/login.dart';
-import 'dart:convert';
-
 class PostDetailPage extends StatefulWidget {
   final int postId;
   const PostDetailPage({super.key, required this.postId});

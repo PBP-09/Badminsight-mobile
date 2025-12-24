@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/authentication/auth_state.dart';
 import '../models/katalog.dart';
 import '../screens/katalog_detail_page.dart';

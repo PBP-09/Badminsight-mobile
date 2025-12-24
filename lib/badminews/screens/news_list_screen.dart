@@ -8,7 +8,7 @@ import 'package:badminsights_mobile/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'create_edit_news_screen.dart';
-import 'package:badminsights_mobile/left_drawer.dart'; 
+
 
 class NewsListScreen extends StatefulWidget {
   const NewsListScreen({super.key});

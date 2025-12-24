@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import '../models/katalog.dart';
 import 'katalog_edit_page.dart';
 import 'katalog_delete_page.dart';
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/authentication/auth_state.dart';
 
 
