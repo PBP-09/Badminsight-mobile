@@ -14,13 +14,12 @@ class PlayerEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mengambil string dari Enum menggunakan reverse map
-    String countryName = countryValues.reverse[player.country] ?? "";
+    String countryName = player.country; 
+    String bioText = player.bio;
+
     String categoryName = categoryValues.reverse[player.category] ?? "";
     String statusName = statusValues.reverse[player.status] ?? "";
-    String bioText = bioValues.reverse[player.bio] ?? "";
     
-    // Format tanggal lahir
     String formattedDate = DateFormat('dd MMM yyyy').format(player.dateOfBirth);
 
     return Container(
@@ -36,7 +35,6 @@ class PlayerEntryCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Bagian Header Warna sesuai kategori
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: const BoxDecoration(
@@ -72,7 +70,6 @@ class PlayerEntryCard extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Thumbnail Placeholder atau Network Image
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: player.thumbnail != null && player.thumbnail!.isNotEmpty
@@ -87,7 +84,6 @@ class PlayerEntryCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 16),
                         
-                        // Informasi Nama & Rank
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +121,6 @@ class PlayerEntryCard extends StatelessWidget {
 
                     const Divider(height: 30),
 
-                    // Bio Singkat
                     const Text(
                       "BIO",
                       style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey),
@@ -133,12 +128,13 @@ class PlayerEntryCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       bioText.isEmpty ? "No biography available." : bioText,
+                      maxLines: 2, 
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 13, color: Colors.black87),
                     ),
 
                     const SizedBox(height: 12),
                     
-                    // Footer Tanggal Lahir
                     Row(
                       children: [
                         const Icon(Icons.cake_outlined, size: 14, color: Colors.grey),
@@ -173,7 +169,7 @@ class PlayerEntryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: isActive ? Colors.green.withValues(alpha: 0.1) : Colors.red.withValues(alpha: 0.1),
+        color: isActive ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: isActive ? Colors.green : Colors.red, width: 0.5),
       ),

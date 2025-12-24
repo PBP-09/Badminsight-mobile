@@ -71,7 +71,6 @@ class _PlayerEntryListPageState extends State<PlayerEntryListPage> {
                 itemBuilder: (_, index) {
                   final player = snapshot.data![index];
                   
-                  // Menggunakan Widget Card yang sudah kita buat sebelumnya
                   return PlayerEntryCard(
                     player: player,
                     onTap: () {
