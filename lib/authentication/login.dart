@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:badminsights_mobile/authentication/register.dart';
 import 'package:badminsights_mobile/main_features/menu.dart';
 import 'dart:convert';
+import 'package:badminsights_mobile/main_splash_screen.dart'; 
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -94,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             if (request.loggedIn) {
                               if (context.mounted) {
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainSplashScreen()));
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("Login Success! Let's play."), backgroundColor: Colors.blue),
                                 );
@@ -147,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                         // === 3. TOMBOL GUEST ===
                         TextButton.icon(
                           onPressed: () {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainSplashScreen()));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Browsing as Guest. Login to interact!")),
                             );

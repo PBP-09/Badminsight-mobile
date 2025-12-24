@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
+import 'package:badminsights_mobile/smash_talk/screens/smash_talk_splash.dart';
 import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -381,10 +381,10 @@ class ItemCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (item.name == "SmashTalk") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ForumListPage()),
-            );
+           Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SmashTalkSplash()),
+          );
           } else if (item.name == "BadmiNews") {
             Navigator.push(
               context,
