@@ -40,7 +40,7 @@ class ItemCard extends StatelessWidget {
           else if (item.name == "Logout") {
             // Sesuaikan URL dengan endpoint logout di Django kamu
             final response = await request.logout(
-                "http://localhost:8000/auth/logout/");
+                "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/");
             
             String message = response["message"];
             

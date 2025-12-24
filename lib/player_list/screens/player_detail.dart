@@ -13,7 +13,7 @@ class PlayerDetailPage extends StatelessWidget {
   // Fungsi untuk mengirim data bookmark ke Django
   Future<void> toggleBookmark(CookieRequest request, BuildContext context) async {
     final response = await request.post(
-      "http://localhost:8000/bookmark/add-flutter/", 
+      "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/bookmark/add-flutter/", 
       {
         "player_id": player.id.toString(),
       },

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import '../models/bookmark.dart';
-import 'package:badminsights_mobile/left_drawer.dart'; 
+import 'package:badminsights_mobile/left_drawer.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  // Hapus parameter required favorites
   const FavoriteScreen({super.key});
 
   @override
@@ -13,14 +12,19 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  
-  // Fungsi Fetch Data dari Django
+
+  // Fetch bookmark hanya untuk USER LOGIN
   Future<List<Bookmark>> fetchBookmarks(CookieRequest request) async {
-    // Sesuaikan URL ini dengan endpoint API Bookmark temanmu
-    // Contoh: http://127.0.0.1:8000/bookmark/json/
-  final response = await request.get("http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/json/"); 
-    
-    // Parsing JSON (sesuaikan dengan struktur JSON bookmark)
+    // kalau belum login, langsung kosongin
+    if (!request.loggedIn) {
+      return [];
+    }
+
+    // endpoint bookmark milik user
+    final response = await request.get(
+      "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/bookmark/json/",
+    );
+
     List<Bookmark> listBookmark = [];
     for (var d in response) {
       if (d != null) {
@@ -30,12 +34,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return listBookmark;
   }
 
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
-      drawer: const LeftDrawer(), 
+      drawer: const LeftDrawer(),
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
         title: const Text(
@@ -46,84 +51,108 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         elevation: 1,
         foregroundColor: Colors.black,
       ),
-      // Pake FutureBuilder biar datanya dinamis
-      body: FutureBuilder(
-        future: fetchBookmarks(request),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } 
-          
-          if (snapshot.hasError) {
-             return Center(child: Text("Error: ${snapshot.error}"));
-          }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
+      // JIKA BELUM LOGIN
+      body: !request.loggedIn
+          ? const Center(
               child: Text(
-                "Belum ada pemain favorit yang ditambahkan.",
+                "Silakan login untuk melihat bookmark.",
                 style: TextStyle(color: Colors.grey),
               ),
-            );
-          } 
-          
-          // Kalau ada data
-          return ListView.builder(
-            padding: const EdgeInsets.all(12),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final Bookmark fav = snapshot.data![index];
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade200),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(12),
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      // Pastikan model Bookmark punya field playerImage atau sejenisnya
-                      // Kalau URL localhost, replace dulu
-                      fav.playerImage.replaceAll("10.0.2.2", "127.0.0.1"), 
-                      width: 56,
-                      height: 56,
-                      fit: BoxFit.cover,
-                      errorBuilder: (ctx, err, stack) => const Icon(Icons.person, size: 50, color: Colors.grey),
-                    ),
-                  ),
-                  title: Text(
-                    fav.playerName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 4),
+            )
+          : FutureBuilder(
+              future: fetchBookmarks(request),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(
+                      child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Text("Error: ${snapshot.error}"));
+                }
+
+                if (!snapshot.hasData ||
+                    snapshot.data!.isEmpty) {
+                  return const Center(
                     child: Text(
-                      fav.category,
-                      style: const TextStyle(color: Colors.grey),
+                      "Belum ada pemain favorit yang ditambahkan.",
+                      style: TextStyle(color: Colors.grey),
                     ),
-                  ),
-                  trailing: const Icon(
-                    Icons.star,
-                    color: Colors.orange,
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
+                  );
+                }
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final Bookmark fav = snapshot.data![index];
+                    return Container(
+                      margin:
+                          const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.circular(12),
+                        border: Border.all(
+                            color: Colors.grey.shade200),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black
+                                .withOpacity(0.05),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        contentPadding:
+                            const EdgeInsets.all(12),
+                        leading: ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(8),
+                          child: Image.network(
+                            fav.playerImage.replaceAll(
+                                "10.0.2.2", "127.0.0.1"),
+                            width: 56,
+                            height: 56,
+                            fit: BoxFit.cover,
+                            errorBuilder:
+                                (ctx, err, stack) =>
+                                    const Icon(
+                              Icons.person,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          fav.playerName,
+                          style: const TextStyle(
+                              fontWeight:
+                                  FontWeight.w600),
+                        ),
+                        subtitle: Padding(
+                          padding:
+                              const EdgeInsets.only(top: 4),
+                          child: Text(
+                            fav.category,
+                            style: const TextStyle(
+                                color: Colors.grey),
+                          ),
+                        ),
+                        trailing: const Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
     );
   }
 }

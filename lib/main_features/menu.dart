@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart';
+import 'package:badminsights_mobile/smash_talk/screens/smash_talk_splash.dart';
 import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -9,6 +9,7 @@ import 'package:badminsights_mobile/authentication/login.dart';
 import 'package:badminsights_mobile/authentication/register.dart';
 import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
+import 'package:badminsights_mobile/logout_splash_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final request = context.read<CookieRequest>(); // Pakai read biar gak rebuild loop
     try {
       // Ganti URL sesuai environment (127.0.0.1 untuk Chrome)
-      final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/api/players/');
+      final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/api/players/');
       
       if (mounted) {
         setState(() {
@@ -125,16 +126,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.logout, color: Colors.white),
+                      icon: const Icon(Icons.logout_rounded, color: Colors.white),
                       onPressed: () async {
-                        final response = await request.logout("http://127.0.0.1:8000/auth/logout/");
+                        final response = await request.logout(
+                          "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/"
+                        );
+
                         if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(response['message'] ?? "Logged out")),
-                          );
+                          if (response['status'] == true || response['status'] == 'success') {
+                            Navigator.pushReplacement(
+                              context, 
+                              MaterialPageRoute(builder: (context) => const LogoutSplashScreen())
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Gagal logout. Silakan coba lagi.")),
+                            );
+                          }
                         }
                       },
-                      tooltip: 'Logout',
                     ),
                   ],
                 );
@@ -298,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // 2. JURUS BARU: PAKE 'wsrv.nl' (Lebih Sakti dari Corsproxy)
       // Ini layanan khusus buat nampilin gambar web yg kena blokir
-      if (thumbnail.startsWith('http') && !thumbnail.contains('127.0.0.1')) {
+      if (thumbnail.startsWith('https') && !thumbnail.contains('127.0.0.1')) {
          // Hapus 'https://' dulu kalau dobel, tapi biar aman kita encode aja
          thumbnail = "https://wsrv.nl/?url=${Uri.encodeComponent(thumbnail)}";
       }
@@ -381,10 +391,10 @@ class ItemCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (item.name == "SmashTalk") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ForumListPage()),
-            );
+           Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SmashTalkSplash()),
+          );
           } else if (item.name == "BadmiNews") {
             Navigator.push(
               context,
