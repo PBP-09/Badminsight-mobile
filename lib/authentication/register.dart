@@ -45,18 +45,21 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 24.0), 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo Badminton
+                // === TAMBAHKAN INI BIAR GAK NABRAK ===
+                const SizedBox(height: kToolbarHeight + 20), 
+      
+                // Logo Badminton lo sekarang bakal turun di bawah AppBar
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                   child: const Icon(Icons.sports_tennis_rounded, size: 60, color: Color(0xFF1E3A8A)),
                 ),
                 const SizedBox(height: 24),
-
+      
                 // === KARTU REGISTER UTAMA ===
                 Card(
                   elevation: 20,

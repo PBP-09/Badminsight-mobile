@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       create: (_) => CookieRequest(),
       child: MaterialApp(
-        title: 'Badminsights Mobile',
+        title: 'Badminsights',
         theme: ThemeData(
           primaryColor: const Color(0xFF2C3E50),
           scaffoldBackgroundColor: const Color(0xFFF8F7F4),
