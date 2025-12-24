@@ -181,8 +181,6 @@ class _ForumListPageState extends State<ForumListPage> {
                             ),
                             const SizedBox(height: 30),
                             // Opsional: Tambah panah kecil nunjuk ke tombol tambah
-                            if (request.loggedIn)
-                              const Icon(Icons.arrow_downward_rounded, color: Color(0xFF2563EB), size: 30),
                           ],
                         ),
                       ),
