@@ -22,7 +22,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
     // endpoint bookmark milik user
     final response = await request.get(
-      "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/bookmark/favorites/json/",
+      "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/bookmark/json/",
     );
 
     List<Bookmark> listBookmark = [];
