@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/katalog.dart';
 import '../widgets/product_card.dart';
 import 'katalog_edit_page.dart';
-import 'package:badminsights_mobile/left_drawer.dart'; 
+import 'package:badminsights_mobile/left_drawer.dart';
 
 class KatalogListPage extends StatefulWidget {
   const KatalogListPage({super.key});
@@ -21,21 +21,22 @@ class _KatalogListPageState extends State<KatalogListPage> {
 
   final categories = [
     '',
-    'Racket',
-    'Shuttlecock',
-    'Jersey',
-    'Shoes',
-    'Accessories',
+    'racket',
+    'shuttlecock',
+    'jersey',
+    'shoes',
+    'accessories',
   ];
 
   Future<void> fetchProducts() async {
     final res = await http.get(
-      Uri.parse('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/json/'),
+      Uri.parse(
+          'https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/katalog/json/'),
     );
     final data = katalogFromJson(res.body);
     setState(() {
       allProducts = data;
-      filteredProducts = data;
+      applyFilter();
     });
   }
 
@@ -69,13 +70,12 @@ class _KatalogListPageState extends State<KatalogListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const LeftDrawer(), 
+      drawer: const LeftDrawer(),
       appBar: AppBar(title: const Text('Katalog Merch')),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
@@ -114,7 +114,7 @@ class _KatalogListPageState extends State<KatalogListPage> {
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => KatalogEditPage(),
+                            builder: (_) => const KatalogEditPage(),
                           ),
                         );
                         if (result == true) {
@@ -137,8 +137,10 @@ class _KatalogListPageState extends State<KatalogListPage> {
                     mainAxisSpacing: 16,
                   ),
                   itemCount: filteredProducts.length,
-                  itemBuilder: (c, i) =>
-                      ProductCard(product: filteredProducts[i]),
+                  itemBuilder: (c, i) => ProductCard(
+                    product: filteredProducts[i],
+                    onRefresh: fetchProducts,
+                  ),
                 ),
               ),
             ],

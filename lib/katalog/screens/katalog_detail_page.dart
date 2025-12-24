@@ -94,13 +94,16 @@ class KatalogDetailPage extends StatelessWidget {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red),
-                                onPressed: () {
-                                  showDialog(
+                                onPressed: () async {
+                                  final result = await showDialog(
                                     context: context,
                                     builder: (_) =>
                                         KatalogDeletePage(
                                             productId: p.id),
                                   );
+                                  if (result == true && context.mounted) {
+                                      Navigator.pop(context, true);
+                                  }
                                 },
                                 child: const Text('Hapus'),
                               ),

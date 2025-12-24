@@ -6,7 +6,13 @@ import '../screens/katalog_delete_page.dart';
 
 class ProductCard extends StatelessWidget {
   final Katalog product;
-  const ProductCard({super.key, required this.product});
+  final VoidCallback onRefresh;
+
+  const ProductCard({
+    super.key,
+    required this.product,
+    required this.onRefresh,
+  });
 
   String categoryLabel(String c) {
     switch (c) {
@@ -32,7 +38,6 @@ class ProductCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       clipBehavior: Clip.antiAlias,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
@@ -53,24 +58,32 @@ class ProductCard extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.edit, color: Colors.white),
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) =>
                                 KatalogEditPage(product: product),
                           ),
                         );
+
+                        if (result == true) {
+                          onRefresh();
+                        }
                       },
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.white),
-                      onPressed: () {
-                        showDialog(
+                      onPressed: () async {
+                        final result = await showDialog(
                           context: context,
                           builder: (_) =>
                               KatalogDeletePage(productId: product.id),
                         );
+                        
+                        if (result == true) {
+                          onRefresh();
+                        }
                       },
                     ),
                   ],
@@ -78,7 +91,6 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
-
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -86,26 +98,17 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   product.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 4),
-
                 Text(
                   categoryLabel(product.category),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(color: Colors.grey),
                 ),
-
                 const SizedBox(height: 8),
-
                 Text(
                   'Rp ${product.price}',
                   style: const TextStyle(
@@ -113,25 +116,17 @@ class ProductCard extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 product.rating > 0
-                    ? Text(
-                        'Rating: ${product.rating.toStringAsFixed(1)} / 5',
-                        style: const TextStyle(fontSize: 14),
-                      )
+                    ? Text('Rating: ${product.rating.toStringAsFixed(1)} / 5')
                     : const Text(
                         'Belum ada rating',
                         style: TextStyle(
-                          fontSize: 13,
                           color: Colors.grey,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-
                 const SizedBox(height: 12),
-
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
