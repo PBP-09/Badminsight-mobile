@@ -104,7 +104,6 @@ class _MainSplashScreenState extends State<MainSplashScreen> with SingleTickerPr
               ),
             ),
             const SizedBox(height: 40),
-            // TEKS BRANDING
             FadeTransition(
               opacity: _opacityAnimation,
               child: Column(
@@ -120,7 +119,7 @@ class _MainSplashScreenState extends State<MainSplashScreen> with SingleTickerPr
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Professional Badminton Analytics",
+                    "Professional Badminton Application",
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.7),
                       fontSize: 14,
