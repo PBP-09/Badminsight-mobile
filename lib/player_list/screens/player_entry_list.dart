@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/player_list/models/player_entry.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
 import 'package:badminsights_mobile/player_list/widgets/player_entry_card.dart';
-import 'package:badminsights_mobile/player_list/screens/player_detail.dart'; // Pastikan path import benar
+import 'package:badminsights_mobile/player_list/screens/player_detail.dart'; 
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-
 
 class PlayerEntryListPage extends StatefulWidget {
   const PlayerEntryListPage({super.key});
@@ -17,8 +16,7 @@ class PlayerEntryListPage extends StatefulWidget {
 class _PlayerEntryListPageState extends State<PlayerEntryListPage> {
   // Fungsi untuk mengambil data dari backend Django
   Future<List<PlayerEntry>> fetchPlayers(CookieRequest request) async {
-    // Ganti URL sesuai dengan environment Anda (localhost/10.0.2.2)
-    final response = await request.get('https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/json/');
+    final response = await request.get('http://rousan-chandra-badminsights.pbp.cs.ui.ac.id/json/');
 
     List<PlayerEntry> listPlayers = [];
     for (var d in response) {
@@ -73,7 +71,6 @@ class _PlayerEntryListPageState extends State<PlayerEntryListPage> {
                 itemBuilder: (_, index) {
                   final player = snapshot.data![index];
                   
-                  // Menggunakan Widget Card yang sudah kita buat sebelumnya
                   return PlayerEntryCard(
                     player: player,
                     onTap: () {

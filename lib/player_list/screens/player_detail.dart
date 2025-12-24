@@ -42,10 +42,10 @@ class PlayerDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     
-    String countryName = countryValues.reverse[player.country] ?? "";
+    String countryName = player.country;
     String categoryName = categoryValues.reverse[player.category] ?? "";
     String statusName = statusValues.reverse[player.status] ?? "";
-    String bioText = bioValues.reverse[player.bio] ?? "";
+    String bioText = player.bio;
     String formattedBirthDate = DateFormat('dd MMMM yyyy').format(player.dateOfBirth);
 
     return Scaffold(
