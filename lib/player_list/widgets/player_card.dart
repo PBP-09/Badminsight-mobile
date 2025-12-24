@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/authentication/login.dart';
-import 'package:badminsights_mobile/player_list/screens/player_form.dart'; // Import form
-import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart'; // Import list
+import 'package:badminsights_mobile/player_list/screens/player_form.dart'; 
+import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart'; 
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:badminsights_mobile/main_features/menu.dart';
@@ -19,7 +19,6 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: () async {
-          // Menampilkan pesan snackbar setiap kali tombol ditekan
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(content: Text("Membuka ${item.name}...")));
@@ -38,7 +37,6 @@ class ItemCard extends StatelessWidget {
             );
           } 
           else if (item.name == "Logout") {
-            // Sesuaikan URL dengan endpoint logout di Django kamu
             final response = await request.logout(
                 "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/");
             

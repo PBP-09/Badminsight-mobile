@@ -1,12 +1,9 @@
 import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/left_drawer.dart';
-// Import pbp_django_auth kalo udah di tahap integrasi backend
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
-
-
 class PlayerFormPage extends StatefulWidget {
   const PlayerFormPage({super.key});
 
@@ -189,16 +186,15 @@ class _PlayerFormPageState extends State<PlayerFormPage> {
                       ),
                      onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Mengirim data ke Django menggunakan request.postJson
                         final response = await request.postJson(
-                          "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/create-player-flutter/", // Sesuaikan URL dengan Django kamu
+                          "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/create-player-flutter/", 
                           jsonEncode(<String, dynamic>{
                             "name": _name,
                             "date_of_birth": _birthDate.toIso8601String().split('T')[0], // Format YYYY-MM-DD
-                            "country": _country, // Pastikan ini sesuai dengan Enum di Django (ID/IT)
+                            "country": _country, 
                             "bio": _biography,
-                            "category": "men's single", // Bisa ditambahkan field input jika perlu
-                            "status": _status.toLowerCase(), // Ubah ke lowercase sesuai Enum Django
+                            "category": "men's single", 
+                            "status": _status.toLowerCase(), 
                             "world_rank": _rank,
                             "is_featured": false,
                           }),
