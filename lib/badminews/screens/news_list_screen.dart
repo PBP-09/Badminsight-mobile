@@ -50,7 +50,6 @@ class _NewsListScreenState extends State<NewsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
 
     return Scaffold(
       drawer: const LeftDrawer(), 
