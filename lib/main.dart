@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:badminsights_mobile/main_features/menu.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:badminsights_mobile/splash_screen.dart';

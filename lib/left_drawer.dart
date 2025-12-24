@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:badminsights_mobile/main_features/menu.dart';
 import 'package:badminsights_mobile/smash_talk/screens/smash_talk_splash.dart'; // Import SmashTalk
 import 'package:badminsights_mobile/main_splash_screen.dart';
 import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart'; // Import BadmiNews

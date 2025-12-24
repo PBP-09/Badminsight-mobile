@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:badminsights_mobile/authentication/auth_state.dart';
 import '../models/katalog.dart';
 import '../widgets/product_card.dart';

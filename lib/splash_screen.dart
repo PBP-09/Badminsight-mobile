@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOutBack);
     _controller.forward();
 
-    // PINDAH KE LOGIN PAGE SETELAH 3 DETIK
     Timer(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.pushReplacement(
