@@ -34,6 +34,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return listBookmark;
   }
 
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
