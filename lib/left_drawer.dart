@@ -10,7 +10,7 @@ import 'package:badminsights_mobile/authentication/register.dart';
 import 'package:badminsights_mobile/player_list/screens/player_entry_list.dart';
 import 'package:badminsights_mobile/katalog/screens/katalog_list_page.dart';
 import 'package:badminsights_mobile/bookmark/screens/favorite_screen.dart';
-
+import 'package:badminsights_mobile/logout_splash_screen.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -133,15 +133,22 @@ class LeftDrawer extends StatelessWidget {
                   leading: const Icon(Icons.logout, color: Colors.red),
                   title: const Text('Logout'),
                   onTap: () async {
-                    final response = await request.logout("https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/");
+                    final response = await request.logout(
+                      "https://rousan-chandra-badminsights.pbp.cs.ui.ac.id/auth/logout/"
+                    );
+
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(response['message'] ?? "Logged out")),
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MyHomePage()),
-                      );
+                      if (response['status'] == true || response['status'] == 'success') {
+                        // Pindah ke Splash Logout
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LogoutSplashScreen()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Gagal logout.")),
+                        );
+                      }
                     }
                   },
                 ),
