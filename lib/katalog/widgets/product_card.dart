@@ -36,7 +36,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ⛔ JANGAN PAKAI loggedIn UNTUK ADMIN
     final isAdmin = AuthState.isAdmin;
 
     return Card(

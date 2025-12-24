@@ -65,7 +65,6 @@ class _KatalogListPageState extends State<KatalogListPage> {
 
   @override
   Widget build(BuildContext context) {
-    // 🔑 SATU-SATUNYA LOGIC ROLE
     final isAdmin = AuthState.isAdmin;
 
     final width = MediaQuery.of(context).size.width;
@@ -115,7 +114,6 @@ class _KatalogListPageState extends State<KatalogListPage> {
                   ),
                   const SizedBox(height: 8),
 
-                  // ✅ HANYA ADMIN (DESAIN TETAP)
                   if (isAdmin)
                     SizedBox(
                       width: double.infinity,
@@ -166,7 +164,6 @@ class _KatalogListPageState extends State<KatalogListPage> {
                   ),
                   const SizedBox(width: 12),
 
-                  // ✅ HANYA ADMIN (DESAIN TETAP)
                   if (isAdmin)
                     ElevatedButton(
                       onPressed: () async {
