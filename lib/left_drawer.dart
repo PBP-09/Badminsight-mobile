@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badminsights_mobile/main_features/menu.dart';
-import 'package:badminsights_mobile/smash_talk/screens/forum_list_page.dart'; // Import SmashTalk
+import 'package:badminsights_mobile/smash_talk/screens/smash_talk_splash.dart'; // Import SmashTalk
+import 'package:badminsights_mobile/main_splash_screen.dart';
 import 'package:badminsights_mobile/badminews/screens/news_list_screen.dart'; // Import BadmiNews
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,7 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                MaterialPageRoute(builder: (context) => MainSplashScreen()),
               );
             },
           ),
@@ -78,9 +79,9 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('SmashTalk'),
             onTap: () {
               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const ForumListPage()),
-              );
+            context,
+            MaterialPageRoute(builder: (context) => const SmashTalkSplash()),
+          );
             },
           ),
 
