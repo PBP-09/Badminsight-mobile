@@ -144,15 +144,28 @@ class _SmashTalkSplashState extends State<SmashTalkSplash> with SingleTickerProv
           ),
 
           // 4. ANIMASI RAKET/BALL (Meluncur di atas teks)
-          Center( // Dikasih Center lagi biar offsetnya ngitung dari titik tengah
+          // Cari bagian // 4. ANIMASI RAKET/BALL, ganti isinya jadi ini:
+          Center(
             child: SlideTransition(
               position: _shuttlecockAnimation,
               child: Transform.rotate(
                 angle: -0.5,
-                child: const Icon(
-                  Icons.sports_tennis_rounded, 
-                  color: Colors.yellowAccent, 
-                  size: 80,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.yellowAccent.withOpacity(0.3),
+                        blurRadius: 20,
+                        spreadRadius: 5,
+                      )
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.sports_tennis_rounded, 
+                    color: Colors.yellowAccent, 
+                    size: 70, // Dikecilin dikit biar nggak nutupin teks banget
+                  ),
                 ),
               ),
             ),
